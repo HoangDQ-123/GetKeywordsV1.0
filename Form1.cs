@@ -1180,6 +1180,11 @@ namespace GetKeywords
             }
             
         }
+
+        private void đọcFileKịchBảnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
         //////////////////////////////////////////////////////////////////////
     }
 }
