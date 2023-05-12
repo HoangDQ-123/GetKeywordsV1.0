@@ -442,7 +442,7 @@ namespace GetKeywords
             }
 
             if (dgrListKeywords.RowCount > 0) {
-                txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[1].Value);
+                txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
             }
         }
         private void ExportExcel(string path)
@@ -1337,7 +1337,7 @@ namespace GetKeywords
         {
             KeyIndex++;
             dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "1";
-            txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[1].Value);
+            txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
         }
         //////////////////////////////////////////////////////////////////////
     }
