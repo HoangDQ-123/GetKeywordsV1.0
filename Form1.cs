@@ -29,6 +29,7 @@ namespace GetKeywords
         static int v_speed = 1;
 
         static int d_errorfile = 0; // Số lần không lấy được file excel
+        
 
         private ExcelConnect f;
         private string CurrentKeywords = null;
@@ -39,8 +40,24 @@ namespace GetKeywords
 
         static int v_VolMax = 1000; // T.Hoang thêm vào biến, sửa tên textbox, quản lý Volume Max
 
+        private int max_Process_Plan03; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 3
+        private int max_Process_Plan04; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 4
+
         private string[] ListSuggestKeys;
         private char[] Separator = { '|' };
+
+        // Khởi tạo các nút kịch bản 03:
+        private Point _TextSearch03;
+        private Point _ButtonSearch03;
+        private Point _ButtonDownload03;
+        private Point _ButtonExcel03;
+
+        // Khởi tạo các nút kịch bản 04:
+        private Point _TextSearch04;
+        private Point _ButtonSearch04;
+        private Point _ClickCloudFare04;
+
+        private Random rand = new Random();
 
 
 
@@ -49,12 +66,12 @@ namespace GetKeywords
             InitializeComponent();
             // Lấy các dữ liệu setting
             // Delay Time after event 1
-            NextStepDelay[0] = 0; //focus text search
-            NextStepDelay[1] = 4; //input text search
-            NextStepDelay[2] = 2; // click search
+            NextStepDelay[0] = 1; //focus text search
+            NextStepDelay[1] = 1; //input text search
+            NextStepDelay[2] = 3; // click search
             NextStepDelay[3] = 1; // click download button
             NextStepDelay[4] = 1; // click excel
-            NextStepDelay[5] = 1; // click stop
+            NextStepDelay[5] = 2; // click stop
 
             StepTimer[0] = 2;
             for (int i = 0; i < 10; i++)
@@ -62,22 +79,22 @@ namespace GetKeywords
                 StepTimer[i + 1] = StepTimer[i] + NextStepDelay[i];
             }
             // Delay Time after event 2
-            NextStepDelay01[0] = 2; //focus to link
-            NextStepDelay01[1] = 2; //input text link
-            NextStepDelay01[2] = 4; // click enter
+            NextStepDelay01[0] = 1; //focus to link
+            NextStepDelay01[1] = 1; //input text link
+            NextStepDelay01[2] = 3; // click enter
             NextStepDelay01[3] = 2; // click muc luc
             NextStepDelay01[4] = 2; // click to login
             NextStepDelay01[5] = 2; // focus to tai khoan
-            NextStepDelay01[6] = 2; // input text tai khoan
-            NextStepDelay01[7] = 2; // focus to mat khau
-            NextStepDelay01[8] = 2; // input text mat khau
-            NextStepDelay01[9] = 2; // click to login
-            NextStepDelay01[10] = 2; //focus to text keyword
-            NextStepDelay01[11] = 2; //input to text keyword
-            NextStepDelay01[12] = 4; // click search
-            NextStepDelay01[13] = 2; // click download button
-            NextStepDelay01[14] = 2; // click excel
-            NextStepDelay01[15] = 1; // click stop
+            NextStepDelay01[6] = 1; // input text tai khoan
+            NextStepDelay01[7] = 1; // focus to mat khau
+            NextStepDelay01[8] = 1; // input text mat khau
+            NextStepDelay01[9] = 3; // click to login
+            NextStepDelay01[10] = 1; //focus to text keyword
+            NextStepDelay01[11] = 1; //input to text keyword
+            NextStepDelay01[12] = 3; // click search
+            NextStepDelay01[13] = 1; // click download button
+            NextStepDelay01[14] = 1; // click excel
+            NextStepDelay01[15] = 2; // click stop
 
             StepTimer01[0] = 2;
             for (int j = 0; j < 20; j++)
@@ -85,34 +102,39 @@ namespace GetKeywords
                 StepTimer01[j + 1] = StepTimer01[j] + NextStepDelay01[j];
             }
             // Delay Time after event 3
-            NextStepDelay02[0] = 1; //focus text search
-            NextStepDelay02[1] = 1; //CtrlA
-            NextStepDelay02[2] = 1; // input text search
-            NextStepDelay02[3] = 8; // click search
-            NextStepDelay02[4] = 1; // click download button
-            NextStepDelay02[5] = 1; // click excel
-            NextStepDelay02[6] = 1; // click kiem tra file
-            NextStepDelay02[7] = 1; // click stop
+            NextStepDelay02[0] = 1; // + rand.Next(100); //focus text search
+            NextStepDelay02[1] = 1; //+ rand.Next(100); //CtrlA
+            NextStepDelay02[2] = 1; //+ rand.Next(100); // input text search
+            NextStepDelay02[3] = 4; //+ rand.Next(100); // click search
+            NextStepDelay02[4] = 1; //+ rand.Next(100); // click download button
+            NextStepDelay02[5] = 2; //+ rand.Next(100); // click excel
+            NextStepDelay02[6] = 1; //+ rand.Next(100); // click kiem tra file
+            NextStepDelay02[7] = 1; //+ rand.Next(100); // click stop
 
             StepTimer02[0] = 2;
             for (int m = 0; m < 10; m++)
             {
                 StepTimer02[m + 1] = StepTimer02[m] + NextStepDelay02[m];
             }
+            max_Process_Plan03 = 9;
+
             // Delay Time after event 4
             NextStepDelay03[0] = 2; //click to link
             NextStepDelay03[1] = 2; //input dia chi website
             NextStepDelay03[2] = 2; //Enter
-            NextStepDelay03[3] = 2; // focus to text
-            NextStepDelay03[4] = 2; // input to text
-            NextStepDelay03[5] = 4; // click search
-            NextStepDelay03[6] = 2; // click stop
+            NextStepDelay03[3] = 1; //Click CloudFare
+            NextStepDelay03[4] = 2; // focus to text
+            NextStepDelay03[5] = 2; // input to text
+            NextStepDelay03[6] = 2; // click search
+            NextStepDelay03[7] = 2; // click stop
 
             StepTimer03[0] = 2;
             for (int n = 0; n < 10; n++)
             {
                 StepTimer03[n + 1] = StepTimer03[n] + NextStepDelay03[n];
             }
+
+            max_Process_Plan04 = 9;
             //event5
             NextStepDelay04[0] = 2; //focus tai khoan
             NextStepDelay04[1] = 2; //input tai khoan
@@ -128,9 +150,14 @@ namespace GetKeywords
             {
                 StepTimer04[a + 1] = StepTimer04[a] + NextStepDelay04[a];
             }
+
+            // Load Toa do Kich ban
+            LoadPlanPoint("Plan.xlsx");
         }
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
         private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
 
         [DllImport("user32.dll")]
 
@@ -174,7 +201,7 @@ namespace GetKeywords
                 if (cboPlan.SelectedIndex == 2) // Lựa chọn Get Keywords tiep theo
                 {
 
-                    progressBar1.Maximum = 8; // số lượng các thao tác trong kế hoạch 03.
+                    progressBar1.Maximum = max_Process_Plan03; // số lượng các thao tác trong kế hoạch 03.
                     progressBar1.Value = 0;
                     tmrPlan03.Interval = Convert.ToInt16(txtSpeed.Text);
                     tmrPlan03.Start();
@@ -182,7 +209,7 @@ namespace GetKeywords
                 }
                 if (cboPlan.SelectedIndex == 3) // không tìm thấy file ex
                 {
-                    progressBar1.Maximum = 8; // số lượng các thao tác trong kế hoạch 04.
+                    progressBar1.Maximum = max_Process_Plan04; // số lượng các thao tác trong kế hoạch 04.
                     progressBar1.Value = 0;
                     tmrPlan04.Interval = Convert.ToInt16(txtSpeed.Text);
                     tmrPlan04.Start();
@@ -235,6 +262,24 @@ namespace GetKeywords
             // Mở kết nối file excel
             //f.fileName = "Keyword Tool Export -Keyword Suggestions - " + CurrentKeywords;
         }
+
+        /// Đoạn code save file config
+        /// 
+        private void SaveConfig()
+        {
+            try
+            {
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+
+
         /// <summary>
         /// Day la doan nhap file excel thu 1
         /// </summary>
@@ -319,6 +364,58 @@ namespace GetKeywords
                 }
                 File.Delete(path); // THoang: Xóa luôn file sau khi đã nạp
                 return kq;
+            }
+        }
+
+        /// <summary>
+        /// Load dữ liệu tọa độ điểm Kịch bản
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private void LoadPlanPoint(string path)
+        {
+            try
+            {
+                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
+                {
+                    // Load kich ban 03
+                    ExcelWorksheet excelWorksheetPlan03 = excelPackage.Workbook.Worksheets["Plan03"];
+
+                    _TextSearch03.X = Convert.ToInt32(excelWorksheetPlan03.Cells[2, 2].Value);
+                    _TextSearch03.Y = Convert.ToInt32(excelWorksheetPlan03.Cells[2, 3].Value);
+
+                    _ButtonSearch03.X = Convert.ToInt32(excelWorksheetPlan03.Cells[3, 2].Value);
+                    _ButtonSearch03.Y = Convert.ToInt32(excelWorksheetPlan03.Cells[3, 3].Value);
+
+                    _ButtonDownload03.X = Convert.ToInt32(excelWorksheetPlan03.Cells[4, 2].Value);
+                    _ButtonDownload03.Y = Convert.ToInt32(excelWorksheetPlan03.Cells[4, 3].Value);
+
+                    _ButtonExcel03.X = Convert.ToInt32(excelWorksheetPlan03.Cells[5, 2].Value);
+                    _ButtonExcel03.Y = Convert.ToInt32(excelWorksheetPlan03.Cells[5, 3].Value);
+                    /////////////////////////////////////////////////
+
+
+                    // Load kich ban 04
+                    ExcelWorksheet excelWorksheetPlan04 = excelPackage.Workbook.Worksheets["Plan04"];
+
+                    _TextSearch04.X = Convert.ToInt32(excelWorksheetPlan04.Cells[2, 2].Value);
+                    _TextSearch04.Y = Convert.ToInt32(excelWorksheetPlan04.Cells[2, 3].Value);
+
+                    _ButtonSearch04.X = Convert.ToInt32(excelWorksheetPlan04.Cells[3, 2].Value);
+                    _ButtonSearch04.Y = Convert.ToInt32(excelWorksheetPlan04.Cells[3, 3].Value);
+
+                    _ClickCloudFare04.X = Convert.ToInt32(excelWorksheetPlan04.Cells[4, 2].Value);
+                    _ClickCloudFare04.Y = Convert.ToInt32(excelWorksheetPlan04.Cells[4, 3].Value);
+
+                    /////////////////////////////////////////////////
+
+                    excelPackage.Dispose();
+                }
+                //txtTotal.Text = Convert.ToString(dgrListKeywords.Rows.Count);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error load PlanPoint: " + ex.Message);
             }
         }
 
@@ -682,8 +779,11 @@ namespace GetKeywords
 
                 if (alarmCounter == StepTimer02[0]) //focus text search
                 {
-                    pt.X = 419;
-                    pt.Y = 238;
+                    //pt.X = 419;
+                    //pt.Y = 238;
+                    pt = _TextSearch03;
+
+
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                     AddList("Focus to Search");
@@ -752,8 +852,10 @@ namespace GetKeywords
 
                 if (alarmCounter == StepTimer02[3]) // click search
                 {
-                    pt.X = 982;
-                    pt.Y = 238;
+                    //pt.X = 982;
+                    //pt.Y = 238;
+                    pt = _ButtonSearch03;
+
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                     AddList("Click Search");
@@ -763,9 +865,12 @@ namespace GetKeywords
 
                 if (alarmCounter == StepTimer02[4]) // click download button
                 {
-                    pt.X = 971;
-                    pt.Y = 937;
+                    //pt.X = 971;
+                    //pt.Y = 937;
+                    pt = _ButtonDownload03;
+
                     Cursor.Position = pt;
+
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                     AddList("Click Download");
 
@@ -774,8 +879,10 @@ namespace GetKeywords
 
                 if (alarmCounter == StepTimer02[5]) // click export to excel
                 {
-                    pt.X = 918;
-                    pt.Y = 751;
+                    //pt.X = 918;
+                    //pt.Y = 751;
+                    pt = _ButtonExcel03;
+
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                     AddList("Click to excel File");
@@ -789,9 +896,10 @@ namespace GetKeywords
                     // - Khong ton tai: ????
 
                     //tmrPlan03.Stop()
-                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace("'","&#039");
+                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace("&", "&amp").Replace("'","&#039");
                     //fileName = fileName.Replace("+","{+}");
-                    string filePath = @"C:\Users\Ke toan Rdsic\Downloads\Keyword Tool Export - Keyword Suggestions - " + fileName + ".xlsx";
+                    string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
+                    string filePath = downloadPath + "Keyword Tool Export - Keyword Suggestions - " + fileName + ".xlsx";
                     if ((System.IO.File.Exists(filePath) == true))
                     {
 
@@ -819,7 +927,7 @@ namespace GetKeywords
                                 tmrPlan03.Stop();
 
                                 progressBar1.Value = 0;
-                                progressBar1.Maximum = 8;
+                                progressBar1.Maximum = max_Process_Plan04;
 
                                 alarmCounter = 0;
                                 tmrPlan04.Start();
@@ -857,7 +965,7 @@ namespace GetKeywords
                             tmrPlan03.Stop();
 
                             progressBar1.Value = 0;
-                            progressBar1.Maximum = 8;
+                            progressBar1.Maximum = max_Process_Plan04;
 
                             alarmCounter = 0;
                             tmrPlan04.Start();
@@ -937,27 +1045,58 @@ namespace GetKeywords
 
                 progressBar1.Value += 1;
             }
-            if (alarmCounter == StepTimer03[3]) //focus text search
+
+            if (alarmCounter == StepTimer03[3]) //Click CloudFare
             {
-                pt.X = 382;
-                pt.Y = 486;
+                ////pt.X = _ClickCloudFare04.X + 10;
+                ////pt.Y = _ClickCloudFare04.Y + 10;
+                ////Cursor.Position = pt;
+                ////pt.X = _ClickCloudFare04.X - 10;
+                ////pt.Y = _ClickCloudFare04.Y + 10;
+                ////Cursor.Position = pt;
+                ////pt.X = _ClickCloudFare04.X + 10;
+                ////pt.Y = _ClickCloudFare04.Y - 10;
+                ////Cursor.Position = pt;
+                ////pt.X = _ClickCloudFare04.X - 10;
+                ////pt.Y = _ClickCloudFare04.Y - 10;
+                ////Cursor.Position = pt;
+
+                //pt = _ClickCloudFare04;
+
+                //Cursor.Position = pt;
+                ////mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                //mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, pt.X, pt.Y, 0, 0);
+                //AddList("Click CloudFare");
+                //MessageBox.Show("Đã click vào nút: X = " + pt.X + " Y = " + pt.Y);
+
+                progressBar1.Value += 1;
+            }
+
+            if (alarmCounter == StepTimer03[4]) //focus text search
+            {
+                //pt.X = 382;
+                //pt.Y = 486;
+                pt = _TextSearch04;
+
                 Cursor.Position = pt;
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                 AddList("Focus to Search");
 
                 progressBar1.Value += 1;
             }
-            if (alarmCounter == StepTimer03[4]) //input text search
+            if (alarmCounter == StepTimer03[5]) //input text search
             {
                 SendKeys.Send(txtKeywords.Text);
                 AddList("input Text search");
 
                 progressBar1.Value += 1;
             }
-            if (alarmCounter == StepTimer03[5]) // click search
+            if (alarmCounter == StepTimer03[6]) // click search
             {
-                pt.X = 941;
-                pt.Y = 486;
+                //pt.X = 941;
+                //pt.Y = 486;
+                pt = _ButtonSearch04;
+
                 Cursor.Position = pt;
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
                 AddList("Click Search");
@@ -985,7 +1124,7 @@ namespace GetKeywords
 
             //    progressBar1.Value += 1;
             //}
-            if (alarmCounter == StepTimer03[6])
+            if (alarmCounter == StepTimer03[7])
             {
                 alarmCounter = 0;
 
@@ -996,7 +1135,7 @@ namespace GetKeywords
 
                 tmrPlan04.Stop();
                 progressBar1.Value = 0;
-                progressBar1.Maximum = 8;
+                progressBar1.Maximum = max_Process_Plan03;
 
                 alarmCounter = 0;
                 tmrPlan03.Start();
@@ -1137,7 +1276,7 @@ namespace GetKeywords
 
                 tmrPlan05.Stop();
                 progressBar1.Value = 0;
-                progressBar1.Maximum = 8;
+                progressBar1.Maximum = max_Process_Plan03;
 
                 alarmCounter = 0;
                 tmrPlan03.Start();
@@ -1183,7 +1322,7 @@ namespace GetKeywords
 
         private void đọcFileKịchBảnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            LoadPlanPoint("Plan.xlsx");
         }
         //////////////////////////////////////////////////////////////////////
     }
