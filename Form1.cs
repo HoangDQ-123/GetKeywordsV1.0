@@ -44,6 +44,7 @@ namespace GetKeywords
         private int max_Process_Plan04; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 4
 
         private string[] ListSuggestKeys;
+        private string[] ListNegativeKeys;
         private char[] Separator = { '|' };
 
         // Khởi tạo các nút kịch bản 03:
@@ -169,9 +170,11 @@ namespace GetKeywords
         {
             if (btnStart.Text == "Start") { 
             string strSuggestKey = txtSuggestKey.Text;
+            string strNegativeKey = txtNegativeKey.Text;
             ListSuggestKeys = strSuggestKey.Split(Separator);
+            ListNegativeKeys = strNegativeKey.Split(Separator);
 
-            Cursor.Show();  // Cho phép hiện con trỏ chuột lên
+                Cursor.Show();  // Cho phép hiện con trỏ chuột lên
 
                 alarmCounter = 0;
                 exitFlag = false;
@@ -341,9 +344,10 @@ namespace GetKeywords
                                 // Kiểm tra ListSuggest
                                 bool sug = false;
                                 for (int j = 0; j <= ListSuggestKeys.Length-1; j++)
+                                for (int jj = 0; jj <= ListNegativeKeys.Length - 1; j++)
+                                {
+                                        if ((str2.Contains(ListSuggestKeys[j]) == true && str2.Contains(ListNegativeKeys[jj]) == false))
                                     {
-                                        if (str2.Contains(ListSuggestKeys[j]) == true)
-                                            {
                                                 sug = true;
                                                 break;
                                             }
@@ -435,6 +439,10 @@ namespace GetKeywords
                 {
                     MessageBox.Show("Nhap file khong thanh cong \n" + ex.Message);
                 }
+            }
+
+            if (dgrListKeywords.RowCount > 0) {
+                txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[2].Value);
             }
         }
         private void ExportExcel(string path)
@@ -1323,6 +1331,13 @@ namespace GetKeywords
         private void đọcFileKịchBảnToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadPlanPoint("Plan.xlsx");
+        }
+
+        private void btnNextKey_Click(object sender, EventArgs e)
+        {
+            KeyIndex++;
+            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "1";
+            txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[2].Value);
         }
         //////////////////////////////////////////////////////////////////////
     }
