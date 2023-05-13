@@ -343,15 +343,26 @@ namespace GetKeywords
                             {
                                 // Kiểm tra ListSuggest
                                 bool sug = false;
-                                for (int j = 0; j <= ListSuggestKeys.Length-1; j++)
-                                for (int jj = 0; jj <= ListNegativeKeys.Length - 1; j++)
+                                for (int t1 = 0; t1 <= ListSuggestKeys.Length-1; t1++)
+                                for (int t2 = 0; t2 <= ListNegativeKeys.Length - 1; t2++)
                                 {
-                                        if ((str2.Contains(ListSuggestKeys[j]) == true && str2.Contains(ListNegativeKeys[jj]) == false))
+                                    if (ListNegativeKeys[t2] == "")
                                     {
-                                                sug = true;
-                                                break;
-                                            }
+                                        if (str2.Contains(ListSuggestKeys[t1]) == true)
+                                        {
+                                            sug = true;
+                                            break;
+                                        }
                                     }
+                                    else
+                                    {
+                                        if ((str2.Contains(ListSuggestKeys[t1]) == true) && str2.Contains(ListNegativeKeys[t2]) == false)
+                                        {
+                                            sug = true;
+                                            break;
+                                        }    
+                                    }    
+                                }
 
                                 if (sug == true)
                                 {
