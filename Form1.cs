@@ -341,30 +341,56 @@ namespace GetKeywords
                             }
                             if (dup == false)
                             {
-                                // Kiểm tra ListSuggest
+                                // Kiểm tra ListSuggest & Negative
                                 bool sug = false;
-                                for (int t1 = 0; t1 <= ListSuggestKeys.Length-1; t1++)
+
+                                for (int t1 = 0; t1 <= ListSuggestKeys.Length - 1; t1++)
+                                {
+                                    if (str2.Contains(ListSuggestKeys[t1]) == true)
+                                    {
+                                        sug = true;
+                                        break;
+                                    }
+                                }
+
+                                bool nega = true;
+                                
                                 for (int t2 = 0; t2 <= ListNegativeKeys.Length - 1; t2++)
                                 {
-                                    if (ListNegativeKeys[t2] == "")
+                                if (ListNegativeKeys[t2] != "")
+                                    if(str2.Contains(ListNegativeKeys[t2]) == true)
                                     {
-                                        if (str2.Contains(ListSuggestKeys[t1]) == true)
-                                        {
-                                            sug = true;
-                                            break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if ((str2.Contains(ListSuggestKeys[t1]) == true) && str2.Contains(ListNegativeKeys[t2]) == false)
-                                        {
-                                            sug = true;
-                                            break;
-                                        }    
+                                        nega = false;
                                     }    
                                 }
 
-                                if (sug == true)
+
+
+
+                                //for (int t1 = 0; t1 <= ListSuggestKeys.Length-1; t1++)
+
+
+                                //for (int t2 = 0; t2 <= ListNegativeKeys.Length - 1; t2++)
+                                //{
+                                //    if (ListNegativeKeys[t2] == "")
+                                //    {
+                                //        if (str2.Contains(ListSuggestKeys[t1]) == true)
+                                //        {
+                                //            sug = true;
+                                //            break;
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        if ((str2.Contains(ListSuggestKeys[t1]) == true) && str2.Contains(ListNegativeKeys[t2]) == false)
+                                //        {
+                                //            sug = true;
+                                //            break;
+                                //        }    
+                                //    }    
+                                //}
+
+                                if ((sug == true) && (nega == true))
                                 {
                                     dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value);
                                 }
@@ -1335,6 +1361,7 @@ namespace GetKeywords
             if (result == DialogResult.Yes)
             {
                 dgrListKeywords.Rows.Clear();
+                KeyIndex = 0;
             }
             
         }
