@@ -870,6 +870,7 @@ namespace GetKeywords
                             {
                                 txtKeywords.Text = dgrListKeywords.Rows[KeyIndex - 1].Cells[0].Value.ToString();
                                 // THoang 18:59 20230301
+                                FocusCurrentCell(dgrListKeywords, KeyIndex - 1);
                                 dgrListKeywords.Rows[KeyIndex - 1].Selected = true;
                                 txtCur.Text = Convert.ToString(KeyIndex);
 
@@ -1376,6 +1377,22 @@ namespace GetKeywords
             KeyIndex++;
             dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "1";
             txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
+        }
+
+        private void FocusCurrentCell(DataGridView dataGridView, int curRow)
+        {
+            if (dataGridView.CurrentRow != null && dataGridView.CurrentCell != null)
+            {
+                // Lưu trữ vị trí ô cell hiện tại
+                int currentRowIndex = curRow;
+                int currentColumnIndex = 0;
+
+                // Di chuyển tiêu điểm đến ô cell hiện tại
+                dataGridView.CurrentCell = dataGridView.Rows[currentRowIndex].Cells[currentColumnIndex];
+
+                // Tập trung vào DataGridView để ô cell hiện tại trở thành tiêu điểm
+                dataGridView.Focus();
+            }
         }
         //////////////////////////////////////////////////////////////////////
     }

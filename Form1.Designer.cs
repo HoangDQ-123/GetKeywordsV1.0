@@ -91,7 +91,7 @@
             // btnStart
             // 
             this.btnStart.Location = new System.Drawing.Point(68, 41);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(56, 19);
             this.btnStart.TabIndex = 0;
@@ -111,9 +111,9 @@
             this.groupBox1.Controls.Add(this.txtSpeed);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(18, 20);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(124, 55);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
@@ -121,7 +121,7 @@
             // txtVolMax
             // 
             this.txtVolMax.Location = new System.Drawing.Point(40, 31);
-            this.txtVolMax.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtVolMax.Margin = new System.Windows.Forms.Padding(2);
             this.txtVolMax.Name = "txtVolMax";
             this.txtVolMax.Size = new System.Drawing.Size(44, 20);
             this.txtVolMax.TabIndex = 3;
@@ -141,7 +141,7 @@
             // txtSpeed
             // 
             this.txtSpeed.Location = new System.Drawing.Point(40, 9);
-            this.txtSpeed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.txtSpeed.Name = "txtSpeed";
             this.txtSpeed.Size = new System.Drawing.Size(44, 20);
             this.txtSpeed.TabIndex = 1;
@@ -172,7 +172,7 @@
             // 
             this.lstStatus.FormattingEnabled = true;
             this.lstStatus.Location = new System.Drawing.Point(154, 35);
-            this.lstStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lstStatus.Margin = new System.Windows.Forms.Padding(2);
             this.lstStatus.Name = "lstStatus";
             this.lstStatus.Size = new System.Drawing.Size(65, 43);
             this.lstStatus.TabIndex = 6;
@@ -190,7 +190,7 @@
             this.dgrListKeywords.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgrListKeywords.EnableHeadersVisualStyles = false;
             this.dgrListKeywords.Location = new System.Drawing.Point(11, 190);
-            this.dgrListKeywords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgrListKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.dgrListKeywords.Name = "dgrListKeywords";
             this.dgrListKeywords.ReadOnly = true;
             this.dgrListKeywords.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -229,7 +229,7 @@
             // 
             this.cboPlan.FormattingEnabled = true;
             this.cboPlan.Location = new System.Drawing.Point(76, 17);
-            this.cboPlan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cboPlan.Margin = new System.Windows.Forms.Padding(2);
             this.cboPlan.Name = "cboPlan";
             this.cboPlan.Size = new System.Drawing.Size(120, 21);
             this.cboPlan.TabIndex = 8;
@@ -243,9 +243,9 @@
             this.groupBox2.Controls.Add(this.cboPlan);
             this.groupBox2.Controls.Add(this.btnStart);
             this.groupBox2.Location = new System.Drawing.Point(18, 119);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(200, 67);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
@@ -259,12 +259,13 @@
             this.btnPause.TabIndex = 11;
             this.btnPause.Text = "Pause";
             this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Visible = false;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // btnAuto
             // 
             this.btnAuto.Location = new System.Drawing.Point(128, 41);
-            this.btnAuto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAuto.Margin = new System.Windows.Forms.Padding(2);
             this.btnAuto.Name = "btnAuto";
             this.btnAuto.Size = new System.Drawing.Size(56, 19);
             this.btnAuto.TabIndex = 10;
@@ -294,7 +295,7 @@
             // txtKeywords
             // 
             this.txtKeywords.Location = new System.Drawing.Point(73, 97);
-            this.txtKeywords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.txtKeywords.Name = "txtKeywords";
             this.txtKeywords.Size = new System.Drawing.Size(121, 20);
             this.txtKeywords.TabIndex = 1;
@@ -303,7 +304,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(18, 79);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(200, 10);
             this.progressBar1.TabIndex = 10;
@@ -429,7 +430,7 @@
             // 
             this.txtmatkhau.Location = new System.Drawing.Point(75, 623);
             this.txtmatkhau.Name = "txtmatkhau";
-            this.txtmatkhau.Size = new System.Drawing.Size(67, 20);
+            this.txtmatkhau.Size = new System.Drawing.Size(52, 20);
             this.txtmatkhau.TabIndex = 13;
             this.txtmatkhau.Text = "guihAaat";
             // 
@@ -480,16 +481,16 @@
             // 
             // txtCur
             // 
-            this.txtCur.Location = new System.Drawing.Point(148, 623);
+            this.txtCur.Location = new System.Drawing.Point(133, 623);
             this.txtCur.Name = "txtCur";
-            this.txtCur.Size = new System.Drawing.Size(34, 20);
+            this.txtCur.Size = new System.Drawing.Size(42, 20);
             this.txtCur.TabIndex = 18;
             // 
             // txtTotal
             // 
-            this.txtTotal.Location = new System.Drawing.Point(188, 623);
+            this.txtTotal.Location = new System.Drawing.Point(172, 623);
             this.txtTotal.Name = "txtTotal";
-            this.txtTotal.Size = new System.Drawing.Size(33, 20);
+            this.txtTotal.Size = new System.Drawing.Size(48, 20);
             this.txtTotal.TabIndex = 18;
             this.txtTotal.TextChanged += new System.EventHandler(this.txtTotal_TextChanged);
             // 
@@ -516,7 +517,7 @@
             // btnNextKey
             // 
             this.btnNextKey.Location = new System.Drawing.Point(200, 97);
-            this.btnNextKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNextKey.Margin = new System.Windows.Forms.Padding(2);
             this.btnNextKey.Name = "btnNextKey";
             this.btnNextKey.Size = new System.Drawing.Size(20, 18);
             this.btnNextKey.TabIndex = 20;
@@ -569,7 +570,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Location = new System.Drawing.Point(1050, 300);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.Form1_Load);
