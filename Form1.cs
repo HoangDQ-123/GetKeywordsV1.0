@@ -38,7 +38,9 @@ namespace GetKeywords
 
         private int LoadFileExcelOK = 0;
 
-        private int LevelSearch;        
+        private int LevelSearch;
+
+        private int NextKeyCount = 0;
 
         private int max_Process_Plan03; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 3
         private int max_Process_Plan04; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 4
@@ -238,7 +240,7 @@ namespace GetKeywords
                 tmrPlan03.Stop();
                 tmrPlan04.Stop();
                 tmrPlan05.Stop();
-                MessageBox.Show("Vui lòng thiết lập lại trạng thái bắt đầu nếu muốn Start");
+                //MessageBox.Show("Vui lòng thiết lập lại trạng thái bắt đầu nếu muốn Start");  // Tạm thời bỏ thông báo này để next key
             }    
 
         }
@@ -287,7 +289,14 @@ namespace GetKeywords
                 while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null))
                 {
                     // Cột 17 là vị trí của cột Competition;......
-                    dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, excelWorksheet.Cells[i + 1, 3].Value, excelWorksheet.Cells[i + 1, 17].Value);
+                    if (excelWorksheet.Cells[i + 1, 3].Value == null)
+                    {
+                        dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, "0", excelWorksheet.Cells[i + 1, 17].Value);
+                    }
+                    else
+                    {
+                        dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, excelWorksheet.Cells[i + 1, 3].Value, excelWorksheet.Cells[i + 1, 17].Value);
+                    }
                     i++;
                 }
                 excelPackage.Dispose();
@@ -869,7 +878,7 @@ namespace GetKeywords
                             }
 
                             //THoang 21:56 20230303
-                        } while ((Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value) <= InitVar.v_VolMax) || (dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value != null)); // Chi chay các keyword có vol >=1000
+                        } while ((Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value) <= InitVar.v_VolMax) || (Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value) >= InitVar.v_LevelSearch)); // Chi chay các keyword có vol >=1000 || chưa đánh dấu 100
 
                         //////
                     }
@@ -942,7 +951,7 @@ namespace GetKeywords
                         if (LoadFileExcelOK == 0)
                         {
                             txtTotal.Text = Convert.ToString(dgrListKeywords.Rows.Count);
-                            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "1";
+                            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; // Giá trị cao vượt qua LevelSearch
                             //MessageBox.Show("Nhap file thanh cong");
                             //KeyIndex++;
                             d_errorfile = 0; // Khi tim thay file tra error ve =0, de chay vong kich ban 03.
@@ -978,9 +987,27 @@ namespace GetKeywords
                             {
                                 tmrPlan03.Stop();
                                 progressBar1.Value = 0;
-                                MessageBox.Show("Lỗi nghiêm trọng, cập nhật lại email, mật khẩu và lựa chọn chạy lại kịch bản 03");
-                                d_errorfile = 0;
-                                btnStart.Text = "Stop";
+                                DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ","Thông báo lựa chọn", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.No)
+                                {
+                                    d_errorfile = 0;
+                                    btnStart.Text = "Start";
+                                    cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                    tmrPlan01.Stop();
+                                    tmrPlan02.Stop();
+                                    tmrPlan03.Stop();
+                                    tmrPlan04.Stop();
+                                    tmrPlan05.Stop();
+                                }
+                                else
+                                {
+                                    d_errorfile = 0;
+                                    btnStart_Click(btnStart, EventArgs.Empty);
+                                    btnNextKey_Click(btnNextKey, EventArgs.Empty);
+                                    //btnStart.Text = "Start";
+                                    btnStart_Click(btnStart, EventArgs.Empty);
+                                }    
+                                
                             }
                         }
                     }
@@ -1014,10 +1041,35 @@ namespace GetKeywords
                         }
                         else
                         {
+                            //tmrPlan03.Stop();
+                            //progressBar1.Value = 0;
+                            //MessageBox.Show("Lỗi nghiêm trọng, cập nhật lại email, mật khẩu và lựa chọn chạy lại kịch bản 03");
+                            //d_errorfile = 0;
+
                             tmrPlan03.Stop();
                             progressBar1.Value = 0;
-                            MessageBox.Show("Lỗi nghiêm trọng, cập nhật lại email, mật khẩu và lựa chọn chạy lại kịch bản 03");
-                            d_errorfile = 0;
+                            DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ", "Thông báo lựa chọn", MessageBoxButtons.YesNo);
+                            if (result == DialogResult.No)
+                            {
+                                d_errorfile = 0;
+
+                                btnStart_Click(btnStart, EventArgs.Empty);
+                                //btnStart.Text = "Start";
+                                //cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                //tmrPlan01.Stop();
+                                //tmrPlan02.Stop();
+                                //tmrPlan03.Stop();
+                                //tmrPlan04.Stop();
+                                //tmrPlan05.Stop();
+                            }
+                            else
+                            {
+                                d_errorfile = 0;
+                                btnStart_Click(btnStart, EventArgs.Empty);
+                                btnNextKey_Click(btnNextKey, EventArgs.Empty);
+                                //btnStart.Text = "Start";
+                                btnStart_Click(btnStart, EventArgs.Empty);
+                            }
                         }
 
 
@@ -1305,7 +1357,7 @@ namespace GetKeywords
         private void btnNextKey_Click(object sender, EventArgs e)
         {
             KeyIndex++;
-            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "1";
+            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; //Giá trị cao, mặc định là 100 để vượt qua Level
             txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
         }
 

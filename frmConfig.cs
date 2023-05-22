@@ -36,7 +36,7 @@ namespace GetKeywords
 
             txtVolMax.Text = Convert.ToString(InitVar.v_VolMax);
             txtSpeed.Text = Convert.ToString(InitVar.v_speed);
-
+            txtLevelSearch.Text = Convert.ToString(InitVar.v_LevelSearch);
         }
 
 
