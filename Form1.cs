@@ -397,6 +397,7 @@ namespace GetKeywords
                                 newRow.Cells.Add(new DataGridViewTextBoxCell { Value = excelWorksheet.Cells[i + 1, 1].Value });
                                 newRow.Cells.Add(new DataGridViewTextBoxCell { Value = excelWorksheet.Cells[i + 1, 2].Value });
                                 newRow.Cells.Add(new DataGridViewTextBoxCell { Value = (LevelSearch + 1) });
+                                newRow.Cells.Add(new DataGridViewTextBoxCell { Value = excelWorksheet.Cells[i + 1, 17].Value });
 
                                 // Thay đổi cơ chế chèn file
                                 dgrListKeywords.Rows.Insert(KeyIndex,newRow);
