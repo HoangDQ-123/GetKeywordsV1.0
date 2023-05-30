@@ -181,7 +181,7 @@ namespace GetKeywords
                 alarmCounter = 0;
                 exitFlag = false;
                 d_errorfile = 0;
-                KeyIndex = 0;
+                // KeyIndex = 0;   //// Lưu ý trường hợp có cần phải tính toàn lại loadkeys Index không 
                 LoadFileExcelOK = 0;
                 //InitVar.v_speed = Convert.ToInt32(txtSpeed.Text);
                 //InitVar.v_VolMax = Convert.ToInt32(txtVolMax.Text);
@@ -286,7 +286,7 @@ namespace GetKeywords
             {
                 ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets[0];
                 int i = 1;
-                while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null))
+                while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value.ToString().Contains(".") == false))
                 {
                     // Cột 17 là vị trí của cột Competition;......
                     if (excelWorksheet.Cells[i + 1, 3].Value == null)
@@ -320,7 +320,7 @@ namespace GetKeywords
                 {
                     
                     // THoang code 21:46 20230301
-                    if (excelWorksheet.Cells[i + 1, 2].Value != null)
+                    if ((excelWorksheet.Cells[i + 1, 2].Value != null) && ( Convert.ToInt32(excelWorksheet.Cells[i + 1, 2].Value) >= InitVar.v_VolMin) && (Convert.ToInt32(excelWorksheet.Cells[i + 1, 17].Value) <= InitVar.v_LevelDif))
                         {
                         kq = 0;
 
@@ -879,7 +879,7 @@ namespace GetKeywords
                             }
 
                             //THoang 21:56 20230303
-                        } while ((Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value) <= InitVar.v_VolMax) || (Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value) >= InitVar.v_LevelSearch)); // Chi chay các keyword có vol >=1000 || chưa đánh dấu 100
+                        } while ((Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value) <= InitVar.v_VolMax) || (Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value) >= InitVar.v_LevelSearch)|| (Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[3].Value) >= InitVar.v_LevelDif)); // Chi chay các keyword có vol >=1000 || chưa đánh dấu 100
 
                         //////
                     }
@@ -890,12 +890,24 @@ namespace GetKeywords
                         progressBar1.Value = 0;
                         alarmCounter = 0;
                     }
-                    string sendString = txtKeywords.Text.Replace("+", "{+}").Replace("^", "{^}").Replace("~", "{~}").Replace("%", "{%}"); //.Replace("(", "{(}").Replace(")", "{)}").Replace("{", "{{}").Replace("}", "{}}").Replace("[", "{[}").Replace("]", "{]}"); //Xử lý ký tự đặc biệt.
-                                                                                                                                          //if (txtKeywords.Text.Contains("^"))
-                    SendKeys.Send(sendString);
 
-                    progressBar1.Value += 1;
-                }
+                    try
+                    {
+                        string sendString;
+                        //sendString = "kết+quả+seagame+31+bóng+đá+nam";
+                        //sendString = sendString.Replace("+", "{+}");
+
+                        sendString = txtKeywords.Text.Replace("+", "{+}").Replace("^", "{^}").Replace("~", "{~}").Replace("%", "{%}"); //.Replace("(", "{(}").Replace(")", "{)}").Replace("{", "{{}").Replace("}", "{}}").Replace("[", "{[}").Replace("]", "{]}"); //Xử lý ký tự đặc biệt.
+                                                                                                                                       //if (txtKeywords.Text.Contains("^"))
+                        SendKeys.Send(sendString);
+
+                        progressBar1.Value += 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + " Chụp ảnh màn hình lỗi này. STOP, và có thể cân nhắc tự Nextkey để tiếp tục");
+                    }
+                    }
 
                 if (alarmCounter == StepTimer02[3]) // click search
                 {
@@ -999,6 +1011,7 @@ namespace GetKeywords
                                     tmrPlan03.Stop();
                                     tmrPlan04.Stop();
                                     tmrPlan05.Stop();
+                                    btnStart_Click(btnStart, EventArgs.Empty);
                                 }
                                 else
                                 {
@@ -1054,14 +1067,16 @@ namespace GetKeywords
                             {
                                 d_errorfile = 0;
 
+                                //btnStart_Click(btnStart, EventArgs.Empty);
+
+                                btnStart.Text = "Start";
+                                cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                tmrPlan01.Stop();
+                                tmrPlan02.Stop();
+                                tmrPlan03.Stop();
+                                tmrPlan04.Stop();
+                                tmrPlan05.Stop();
                                 btnStart_Click(btnStart, EventArgs.Empty);
-                                //btnStart.Text = "Start";
-                                //cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
-                                //tmrPlan01.Stop();
-                                //tmrPlan02.Stop();
-                                //tmrPlan03.Stop();
-                                //tmrPlan04.Stop();
-                                //tmrPlan05.Stop();
                             }
                             else
                             {
@@ -1164,7 +1179,8 @@ namespace GetKeywords
             }
             if (alarmCounter == StepTimer03[5]) //input text search
             {
-                SendKeys.Send(txtKeywords.Text);
+                // SendKeys.Send(txtKeywords.Text);
+                SendKeys.Send("ABC");
 
                 progressBar1.Value += 1;
             }

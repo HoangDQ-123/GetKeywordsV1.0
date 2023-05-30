@@ -22,6 +22,8 @@ namespace GetKeywords
             InitVar.v_VolMax = Convert.ToInt32(txtVolMax.Text);
             InitVar.v_speed = Convert.ToInt32(txtSpeed.Text);
             InitVar.v_LevelSearch = Convert.ToInt32(txtLevelSearch.Text);
+            InitVar.v_LevelDif = Convert.ToInt32(txtLevelDif.Text);
+            InitVar.v_VolMin = Convert.ToInt32(txtVolMin.Text);
 
             InitVar.SaveFileConfig(InitVar.pathConfig);
 
@@ -37,6 +39,8 @@ namespace GetKeywords
             txtVolMax.Text = Convert.ToString(InitVar.v_VolMax);
             txtSpeed.Text = Convert.ToString(InitVar.v_speed);
             txtLevelSearch.Text = Convert.ToString(InitVar.v_LevelSearch);
+            txtLevelDif.Text = Convert.ToString(InitVar.v_LevelDif);
+            txtVolMin.Text = Convert.ToString(InitVar.v_VolMin);
         }
 
 
