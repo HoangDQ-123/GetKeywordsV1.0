@@ -337,16 +337,14 @@ namespace GetKeywords
                                 if (str1.Equals(str2, StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     dup = true;
-                                    break;
-                                }
-                                else
-                                {
                                     CurrentKeywords = txtKeywords.Text;
-                                    if(CurrentKeywords.Equals(str2, StringComparison.InvariantCultureIgnoreCase))
+                                    if (CurrentKeywords.Equals(str2, StringComparison.InvariantCultureIgnoreCase))
                                     {
-                                        dgrListKeywords.Rows[KeyIndex].Cells[1].Value = excelWorksheet.Cells[i + 1, 2].Value;
-                                    }    
-                                }    
+                                        dgrListKeywords.Rows[KeyIndex-1].Cells[1].Value = excelWorksheet.Cells[i + 1, 2].Value;
+                                    }
+                                break;
+                                }
+    
                             }
                             if (dup == false)
                             {
@@ -412,10 +410,7 @@ namespace GetKeywords
                                 // dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value);
                                 }
 
-                                if()
-                                {
-
-                                }    
+ 
                         }
 
                         //}
@@ -965,7 +960,7 @@ namespace GetKeywords
                     // - Khong ton tai: ????
 
                     //tmrPlan03.Stop()
-                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace("&", "&amp").Replace("'","&#039");
+                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace(":", " ").Replace("&", "&amp").Replace("'","&#039");
                     //fileName = fileName.Replace("+","{+}");
                     string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
                     string filePath = downloadPath + "Keyword Tool Export - Keyword Suggestions - " + fileName + ".xlsx";
