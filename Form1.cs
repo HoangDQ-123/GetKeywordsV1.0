@@ -339,6 +339,14 @@ namespace GetKeywords
                                     dup = true;
                                     break;
                                 }
+                                else
+                                {
+                                    CurrentKeywords = txtKeywords.Text;
+                                    if(CurrentKeywords.Equals(str2, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        dgrListKeywords.Rows[KeyIndex].Cells[1].Value = excelWorksheet.Cells[i + 1, 2].Value;
+                                    }    
+                                }    
                             }
                             if (dup == false)
                             {
@@ -402,7 +410,12 @@ namespace GetKeywords
                                 // Thay đổi cơ chế chèn file
                                 dgrListKeywords.Rows.Insert(KeyIndex,newRow);
                                 // dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value);
-                            }
+                                }
+
+                                if()
+                                {
+
+                                }    
                         }
 
                         //}
