@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using System;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -960,7 +961,7 @@ namespace GetKeywords
                     // - Khong ton tai: ????
 
                     //tmrPlan03.Stop()
-                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace(":", " ").Replace("&", "&amp").Replace("'","&#039");
+                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace(":", " ").Replace("!", " ").Replace("&", "&amp").Replace("'","&#039");
                     //fileName = fileName.Replace("+","{+}");
                     string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
                     string filePath = downloadPath + "Keyword Tool Export - Keyword Suggestions - " + fileName + ".xlsx";
@@ -1100,9 +1101,20 @@ namespace GetKeywords
                             {
                                 d_errorfile = 0;
                                 btnStart_Click(btnStart, EventArgs.Empty);
-                                btnNextKey_Click(btnNextKey, EventArgs.Empty);
-                                //btnStart.Text = "Start";
-                                btnStart_Click(btnStart, EventArgs.Empty);
+                                if (KeyIndex >= dgrListKeywords.Rows.Count)  // Bỏ qua keywords cuối cùng, thinking tiếp nếu list có vol tận cuối cùng
+                                {
+                                    // THoang 22:59 20230302
+                                    tmrPlan03.Stop();
+                                    alarmCounter = 0;
+                                    MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái
+                                }
+                                else
+                                {
+                                    btnNextKey_Click(btnNextKey, EventArgs.Empty);
+
+                                    //btnStart.Text = "Start";
+                                    btnStart_Click(btnStart, EventArgs.Empty);
+                                }
                             }
                         }
 
@@ -1393,6 +1405,7 @@ namespace GetKeywords
         {
             KeyIndex++;
             dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; //Giá trị cao, mặc định là 100 để vượt qua Level
+            dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value = "0"; // Đưa Vol về = 0, chưa hiểu ý thầy Bình chỗ này!
             txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
 
         }
