@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,11 @@ namespace GetKeywords
 
         public static string pathConfig = "config.txt";
 
-
+        public static MySqlConnection conn = new MySqlConnection();
+        public static string v_server = "localhost";
+        public static string v_UID = "root";
+        public static string v_pass = "";
+        public static string v_DBName = "keywords";
 
 
         public static void SaveFileConfig(string path)
