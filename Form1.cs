@@ -1027,9 +1027,19 @@ namespace GetKeywords
                                     btnStart_Click(btnStart, EventArgs.Empty);
                                     btnNextKey_Click(btnNextKey, EventArgs.Empty);
                                     //btnStart.Text = "Start";
-                                    btnStart_Click(btnStart, EventArgs.Empty);
-                                }    
-                                
+                                    if (KeyIndex >= dgrListKeywords.Rows.Count)  // Bỏ qua keywords cuối cùng, thinking tiếp nếu list có vol tận cuối cùng
+                                    {
+                                        // THoang 22:59 20230302
+                                        tmrPlan03.Stop();
+                                        alarmCounter = 0;
+                                        MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái                        
+                                    }
+                                    else
+                                    {
+                                        btnStart_Click(btnStart, EventArgs.Empty);
+
+                                    }
+                                }
                             }
                         }
                     }
@@ -1384,6 +1394,7 @@ namespace GetKeywords
             KeyIndex++;
             dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; //Giá trị cao, mặc định là 100 để vượt qua Level
             txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
+
         }
 
         private void FocusCurrentCell(DataGridView dataGridView, int curRow)
