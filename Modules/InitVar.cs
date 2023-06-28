@@ -26,7 +26,9 @@ namespace GetKeywords
         public static string v_pass = "";
         public static string v_DBName = "keywords";
 
-
+        // Các biến dùng cho hàm API
+        public static string[] v_arrKeyGG;
+        public static string[] v_arrKeyChatGPT;
         public static void SaveFileConfig(string path)
         {
             StreamWriter fw = new StreamWriter(InitVar.pathConfig);

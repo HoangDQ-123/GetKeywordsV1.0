@@ -1,10 +1,12 @@
-﻿using OfficeOpenXml;
+﻿using GetKeywords.Modules;
+using OfficeOpenXml;
 using System;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -241,6 +243,7 @@ namespace GetKeywords
                 tmrPlan03.Stop();
                 tmrPlan04.Stop();
                 tmrPlan05.Stop();
+                if (alarmCounter >= StepTimer02[2]) KeyIndex--;
                 //MessageBox.Show("Vui lòng thiết lập lại trạng thái bắt đầu nếu muốn Start");  // Tạm thời bỏ thông báo này để next key
             }    
 
@@ -250,6 +253,32 @@ namespace GetKeywords
         {
 
             InitVar.OpenFileConfig(InitVar.pathConfig);
+
+            // Khởi tạo tạm các keyGG & ChatGPT
+            InitVar.v_arrKeyGG = new string[100];
+            InitVar.v_arrKeyGG[0] = "AIzaSyCSXStlfJDlEoikXv6P7yEOSRb2PsVjZAM";
+            InitVar.v_arrKeyGG[1] = "AIzaSyBA5C5BzTPq1Ooi4x7rAytNtqTjjdGJzK8";
+            InitVar.v_arrKeyGG[2] = "AIzaSyB-sU_otHwxn2JNwIqI42O0gHLEk-mkZtY";
+            InitVar.v_arrKeyGG[3] = "AIzaSyCUZBpGQNUs1AJJdH8lSsjSUv2dxmN1zWI";
+            InitVar.v_arrKeyGG[4] = "AIzaSyAk2bQ23muiPHYXf2yFN7GlRic3vpXFh4Y";
+            InitVar.v_arrKeyGG[5] = "AIzaSyCQbkcrYYQTLz_IF-SDmFbVefjHHxyTNM8";
+            InitVar.v_arrKeyGG[6] = "AIzaSyClUiZTcwp359Kbb-W7WDmGziVCjtWA37M";
+            InitVar.v_arrKeyGG[7] = "AIzaSyDft1aB-jQ-Kpk9tE_HjTQm9mHvwlgNaWk";
+            InitVar.v_arrKeyGG[8] = "AIzaSyDdNIKC3t7J9elX3QXUSFD7ELgr3I4UPzY";
+            InitVar.v_arrKeyGG[9] = "AIzaSyD2rfceyTgDh1QzTH-uEJmOlyk-goIEW38";
+
+            InitVar.v_arrKeyChatGPT = new string[100];
+            InitVar.v_arrKeyChatGPT[0] = "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";
+            InitVar.v_arrKeyChatGPT[1] = "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";
+            InitVar.v_arrKeyChatGPT[2] = "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";
+            InitVar.v_arrKeyChatGPT[3] = "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";
+            InitVar.v_arrKeyChatGPT[4] = "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";
+            InitVar.v_arrKeyChatGPT[5] = "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";
+            InitVar.v_arrKeyChatGPT[6] = "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";
+            InitVar.v_arrKeyChatGPT[7] = "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";
+            InitVar.v_arrKeyChatGPT[8] = "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";
+            InitVar.v_arrKeyChatGPT[9] = "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";
+
 
             // Lấy các dữ liệu setting
             //InitVar.v_speed = Convert.ToInt32(txtSpeed.Text);
@@ -310,9 +339,10 @@ namespace GetKeywords
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// 
-        private int ImportExcelCircle(string path)
+        private async void ImportExcelCircle(string path)
         {
-            int kq = 1;
+            //int kq = 1;
+            LoadFileExcelOK = 1;
             using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
             {
                 ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets[0];
@@ -323,8 +353,8 @@ namespace GetKeywords
                     // THoang code 21:46 20230301
                     if ((excelWorksheet.Cells[i + 1, 2].Value != null) && ( Convert.ToInt32(excelWorksheet.Cells[i + 1, 2].Value) >= InitVar.v_VolMin) && (Convert.ToInt32(excelWorksheet.Cells[i + 1, 17].Value) <= InitVar.v_LevelDif))
                         {
-                        kq = 0;
-
+                        //kq = 0;
+                        LoadFileExcelOK = 0;
                         string str2 = excelWorksheet.Cells[i + 1, 1].Value.ToString();
                         //if (Convert.ToInt32(excelWorksheet.Cells[i + 1, 2].Value) >= v_VolMax)
                         //{
@@ -354,9 +384,11 @@ namespace GetKeywords
 
                                 for (int t1 = 0; t1 <= ListSuggestKeys.Length - 1; t1++)
                                 {
-                                    if (str2.Contains(ListSuggestKeys[t1]) == true)
+                                int indexSub = str2.IndexOf(ListSuggestKeys[t1]);
+                                //if (str2.Contains(ListSuggestKeys[t1]) == true)
+                                if (indexSub >= 0)
                                     {
-                                        sug = true;
+                                    sug = true;
                                         break;
                                     }
                                 }
@@ -366,10 +398,15 @@ namespace GetKeywords
                                 for (int t2 = 0; t2 <= ListNegativeKeys.Length - 1; t2++)
                                 {
                                 if (ListNegativeKeys[t2] != "")
-                                    if(str2.Contains(ListNegativeKeys[t2]) == true)
                                     {
-                                        nega = false;
-                                    }    
+                                        int indexSub = str2.IndexOf(ListNegativeKeys[t2]);
+                                        //if(str2.Contains(ListNegativeKeys[t2]) == true)
+                                        if (indexSub >= 0 )
+                                            {
+                                                nega = false;
+                                                break;
+                                            }
+                                    }
                                 }
 
 
@@ -400,6 +437,10 @@ namespace GetKeywords
 
                                 if ((sug == true) && (nega == true))
                                 {
+                                //string InputRequest = "";
+                                //string OutputContent = await clsAPI.CallChatGPTAPI(InputRequest); // Gọi hàm từ clsAPI.
+                                
+                                
                                 DataGridViewRow newRow = new DataGridViewRow();
                                 newRow.Cells.Add(new DataGridViewTextBoxCell { Value = excelWorksheet.Cells[i + 1, 1].Value });
                                 newRow.Cells.Add(new DataGridViewTextBoxCell { Value = excelWorksheet.Cells[i + 1, 2].Value });
@@ -422,7 +463,7 @@ namespace GetKeywords
                     i++;
                 }
                 File.Delete(path); // THoang: Xóa luôn file sau khi đã nạp
-                return kq;
+                //return kq;
             }
         }
 
@@ -523,55 +564,85 @@ namespace GetKeywords
         }
         private void QuickExportExcel(string path)
         {
-            DataTable dt = new DataTable();
+            //DataTable dt = new DataTable();
 
             if (dgrListKeywords.RowCount >= 1)
             {
-                foreach (DataGridViewColumn column in dgrListKeywords.Columns)
-                {
-                    dt.Columns.Add(column.Name);
-                }
-                //dt = (dgrListKeywords.DataSource as DataTable);
-                foreach (DataGridViewRow row in dgrListKeywords.Rows)
-                {
-                    //string column1 = row.Cells[dgrListKeywords.Columns[0].Name].Value.ToString();
-                    //string column2 = row.Cells[dgrListKeywords.Columns[1].Name].Value.ToString();
-                    //string column3 = "";
-                    //    if (row.Cells[dgrListKeywords.Columns[2].Name].Value != null)
-                    //{
-                    //    column3 = row.Cells[dgrListKeywords.Columns[2].Name].Value.ToString();
-                    //}
-                       
-                    // Thêm dữ liệu vào DataTable
-                    dt.Rows.Add(row.Cells[dgrListKeywords.Columns[0].Name].Value, row.Cells[dgrListKeywords.Columns[1].Name].Value, row.Cells[dgrListKeywords.Columns[2].Name].Value);
-                }
-                Excel.Application excel = new Excel.Application();
-                Excel.Workbook workbook = excel.Workbooks.Add();
-                Excel.Worksheet worksheet = workbook.ActiveSheet;
+                //    foreach (DataGridViewColumn column in dgrListKeywords.Columns)
+                //    {
+                //        dt.Columns.Add(column.Name);
+                //    }
+                //    //dt = (dgrListKeywords.DataSource as DataTable);
+                //    foreach (DataGridViewRow row in dgrListKeywords.Rows)
+                //    {
+                //        //string column1 = row.Cells[dgrListKeywords.Columns[0].Name].Value.ToString();
+                //        //string column2 = row.Cells[dgrListKeywords.Columns[1].Name].Value.ToString();
+                //        //string column3 = "";
+                //        //    if (row.Cells[dgrListKeywords.Columns[2].Name].Value != null)
+                //        //{
+                //        //    column3 = row.Cells[dgrListKeywords.Columns[2].Name].Value.ToString();
+                //        //}
 
-                // Ghi tên cột
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    worksheet.Cells[1, i + 1] = dt.Columns[i].ColumnName;
-                }
+                //        // Thêm dữ liệu vào DataTable
+                //        dt.Rows.Add(row.Cells[dgrListKeywords.Columns[0].Name].Value, row.Cells[dgrListKeywords.Columns[1].Name].Value, row.Cells[dgrListKeywords.Columns[2].Name].Value);
+                //    }
+                //    Excel.Application excel = new Excel.Application();
+                //    Excel.Workbook workbook = excel.Workbooks.Add();
+                //    Excel.Worksheet worksheet = workbook.ActiveSheet;
 
-                // Ghi dữ liệu
-                for (int i = 0; i < dt.Rows.Count; i++)
+                //    // Ghi tên cột
+                //    for (int i = 0; i < dt.Columns.Count; i++)
+                //    {
+                //        worksheet.Cells[1, i + 1] = dt.Columns[i].ColumnName;
+                //    }
+
+                //    // Ghi dữ liệu
+                //    for (int i = 0; i < dt.Rows.Count; i++)
+                //    {
+                //        for (int j = 0; j < dt.Columns.Count; j++)
+                //        {
+                //            worksheet.Cells[i + 2, j + 1] = dt.Rows[i][j].ToString();
+                //        }
+                //    }
+
+                //    // Tối ưu hóa hiệu suất
+                //    excel.ScreenUpdating = false;
+                //    excel.DisplayAlerts = false;
+                //    worksheet.Columns.AutoFit();
+                //    workbook.SaveAs(path, Excel.XlFileFormat.xlOpenXMLWorkbook);
+                //    workbook.Close();
+                //    excel.Quit();
+
+                // Tạo một đối tượng ExcelPackage
+                using (ExcelPackage excelPackage = new ExcelPackage())
                 {
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                    // Tạo một đối tượng Worksheet
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+                    // Lấy dữ liệu từ DataGrid và đổ vào worksheet
+                    for (int i = 0; i < dgrListKeywords.Rows.Count; i++)
                     {
-                        worksheet.Cells[i + 2, j + 1] = dt.Rows[i][j].ToString();
+                        for (int j = 0; j < dgrListKeywords.Columns.Count; j++)
+                        {
+                            worksheet.Cells[i + 1, j + 1].Value = dgrListKeywords.Rows[i].Cells[j].Value;
+                        }
+                    }
+
+                    // Lưu workbook vào một MemoryStream
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        excelPackage.SaveAs(memoryStream);
+                        memoryStream.Position = 0;
+
+                        // Lưu MemoryStream vào file Excel
+                        using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+                        {
+                            memoryStream.WriteTo(fileStream);
+                        }
                     }
                 }
 
-                // Tối ưu hóa hiệu suất
-                excel.ScreenUpdating = false;
-                excel.DisplayAlerts = false;
-                worksheet.Columns.AutoFit();
-                workbook.SaveAs(path, Excel.XlFileFormat.xlOpenXMLWorkbook);
-                workbook.Close();
-                excel.Quit();
-                    MessageBox.Show("Xuat file thanh cong");
+                MessageBox.Show("Xuat file thanh cong");
             }
             else
             {
@@ -580,20 +651,24 @@ namespace GetKeywords
         }
         private void saveExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "Export Excel";
-            saveFileDialog.Filter = "Excel(*.xlsx)|*.xlsx|Excel 2016(*.xls)|*.xls";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            DialogResult dlr = MessageBox.Show("Khyến nghị! Bạn nên dùng chức năng Xuất nhanh Excel." + Environment.NewLine + "Bạn có chắc chắn muốn tiếp tục với Xuất Excel bình thường không?", "Viện Tin học Xây dựng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dlr == DialogResult.Yes)
             {
-                //try
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Title = "Export Excel";
+                saveFileDialog.Filter = "Excel(*.xlsx)|*.xlsx|Excel 2016(*.xls)|*.xls";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    ExportExcel(saveFileDialog.FileName);
-                    MessageBox.Show("Xuat file thanh cong");
+                    //try
+                    {
+                        ExportExcel(saveFileDialog.FileName);
+                        MessageBox.Show("Xuat file thanh cong");
+                    }
+                    //catch (Exception ex)
+                    //{
+                    //    MessageBox.Show("Xuat file khong thanh cong \n" + ex.Message);
+                    //}
                 }
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Xuat file khong thanh cong \n" + ex.Message);
-                //}
             }
         }
         private void btnPause_Click(object sender, EventArgs e)
@@ -968,7 +1043,7 @@ namespace GetKeywords
                     if ((System.IO.File.Exists(filePath) == true))
                     {
 
-                        LoadFileExcelOK = ImportExcelCircle(filePath);
+                        ImportExcelCircle(filePath);
                         // THoang 18:59 20230303
                         if (LoadFileExcelOK == 0)
                         {
@@ -996,15 +1071,15 @@ namespace GetKeywords
                                 tmrPlan04.Start();
                                 cboPlan.Text = "Kịch bản 04";
                             }
-                            else if (d_errorfile == 3)  // vao truong hop d_errorfile = 2 (xu ly tiep neu muon lon hon 2)
-                            {
-                                tmrPlan03.Stop();
-                                progressBar1.Value = 0;
-                                progressBar1.Maximum = 9;
-                                alarmCounter = 0;
-                                tmrPlan05.Start();
-                                cboPlan.Text = "Kịch bản 03";
-                            }
+                            //else if (d_errorfile == 3)  // vao truong hop d_errorfile = 2 (xu ly tiep neu muon lon hon 2)
+                            //{
+                            //    tmrPlan03.Stop();
+                            //    progressBar1.Value = 0;
+                            //    progressBar1.Maximum = 9;
+                            //    alarmCounter = 0;
+                            //    tmrPlan05.Start();
+                            //    cboPlan.Text = "Kịch bản 03";
+                            //}
                             else
                             {
                                 tmrPlan03.Stop();
@@ -1210,7 +1285,7 @@ namespace GetKeywords
             if (alarmCounter == StepTimer03[5]) //input text search
             {
                 // SendKeys.Send(txtKeywords.Text);
-                SendKeys.Send("ABC");
+                SendKeys.Send("Trường đại học xây dựng Hà Nội");
 
                 progressBar1.Value += 1;
             }
