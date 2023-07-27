@@ -1,4 +1,5 @@
 ﻿using GetKeywords.Modules;
+using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using System;
 using System.Data;
@@ -18,7 +19,7 @@ namespace GetKeywords
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
         static int alarmCounter = 0;
         static bool exitFlag = false;
-        static Point pt;
+        static System.Drawing.Point pt;
         private int[] StepTimer = new int[100];
         private int[] StepTimer01 = new int[100];
         private int[] StepTimer02 = new int[100];
@@ -33,11 +34,13 @@ namespace GetKeywords
 
         static int d_errorfile = 0; // Số lần không lấy được file excel
         
-
         private ExcelConnect f;
         private string CurrentKeywords = null;
 
         private int KeyIndex = 0;
+        private int KeyIndex_backup = 0;
+        private int countNextKey = 0;
+        private int countBack = 0;
 
         private int LoadFileExcelOK = 0;
 
@@ -45,6 +48,13 @@ namespace GetKeywords
 
         private int NextKeyCount = 0;
 
+        private string ListAccount;
+        private string[] Account = new string[5];
+        private int AccountIndex = 0;
+        private string passLogin;
+
+        private int max_Process_Plan01;
+        private int max_Process_Plan02;
         private int max_Process_Plan03; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 3
         private int max_Process_Plan04; // Số lượng tối đa tiến trình trên thanh trượt kịch bản 4
 
@@ -52,16 +62,25 @@ namespace GetKeywords
         private string[] ListNegativeKeys;
         private char[] Separator = { '|' };
 
+        //Khởi tạo các nút kịch bản Login
+        private System.Drawing.Point _AccountButtonLogin;
+        private System.Drawing.Point _LogoutButtonLogin;
+        private System.Drawing.Point _LoginButtonLogin;
+        private System.Drawing.Point _EmailTextLogin;
+        private System.Drawing.Point _PassTextLogin;
+        private System.Drawing.Point _TextSearchLogin;
+        private System.Drawing.Point _ButtonSearchLogin;
+
         // Khởi tạo các nút kịch bản 03:
-        private Point _TextSearch03;
-        private Point _ButtonSearch03;
-        private Point _ButtonDownload03;
-        private Point _ButtonExcel03;
+        private System.Drawing.Point _TextSearch03;
+        private System.Drawing.Point _ButtonSearch03;
+        private System.Drawing.Point _ButtonDownload03;
+        private System.Drawing.Point _ButtonExcel03;
 
         // Khởi tạo các nút kịch bản 04:
-        private Point _TextSearch04;
-        private Point _ButtonSearch04;
-        private Point _ClickCloudFare04;
+        private System.Drawing.Point _TextSearch04;
+        private System.Drawing.Point _ButtonSearch04;
+        private System.Drawing.Point _ClickCloudFare04;
 
         private Random rand = new Random();
 
@@ -84,29 +103,34 @@ namespace GetKeywords
             {
                 StepTimer[i + 1] = StepTimer[i] + NextStepDelay[i];
             }
+            max_Process_Plan01 = 20;
+
             // Delay Time after event 2
             NextStepDelay01[0] = 1; //focus to link
             NextStepDelay01[1] = 1; //input text link
             NextStepDelay01[2] = 3; // click enter
-            NextStepDelay01[3] = 2; // click muc luc
-            NextStepDelay01[4] = 2; // click to login
-            NextStepDelay01[5] = 2; // focus to tai khoan
-            NextStepDelay01[6] = 1; // input text tai khoan
-            NextStepDelay01[7] = 1; // focus to mat khau
-            NextStepDelay01[8] = 1; // input text mat khau
-            NextStepDelay01[9] = 3; // click to login
-            NextStepDelay01[10] = 1; //focus to text keyword
-            NextStepDelay01[11] = 1; //input to text keyword
-            NextStepDelay01[12] = 3; // click search
-            NextStepDelay01[13] = 1; // click download button
-            NextStepDelay01[14] = 1; // click excel
-            NextStepDelay01[15] = 2; // click stop
+            NextStepDelay01[3] = 2; // click Account Menu
+            NextStepDelay01[4] = 2; // click to Logout
+            NextStepDelay01[5] = 2; // click to Login Again
+            NextStepDelay01[6] = 2; // focus to tai khoan
+            NextStepDelay01[7] = 1; // input text tai khoan
+            NextStepDelay01[8] = 1; // focus to mat khau
+            NextStepDelay01[9] = 1; // input text mat khau
+            NextStepDelay01[10] = 3; // click to login
+            NextStepDelay01[11] = 1; //focus to text keyword
+            NextStepDelay01[12] = 1; //input to text keyword
+            NextStepDelay01[13] = 3; // click search
+            NextStepDelay01[14] = 1; // click download button
+            NextStepDelay01[15] = 1; // click excel
+            NextStepDelay01[16] = 2; // click stop
 
             StepTimer01[0] = 2;
             for (int j = 0; j < 20; j++)
             {
                 StepTimer01[j + 1] = StepTimer01[j] + NextStepDelay01[j];
             }
+            max_Process_Plan02 = 20;
+
             // Delay Time after event 3
             NextStepDelay02[0] = 1; // + rand.Next(100); //focus text search
             NextStepDelay02[1] = 1; //+ rand.Next(100); //CtrlA
@@ -122,7 +146,7 @@ namespace GetKeywords
             {
                 StepTimer02[m + 1] = StepTimer02[m] + NextStepDelay02[m];
             }
-            max_Process_Plan03 = 9;
+            max_Process_Plan03 = 20;
 
             // Delay Time after event 4
             NextStepDelay03[0] = 2; //click to link
@@ -140,7 +164,7 @@ namespace GetKeywords
                 StepTimer03[n + 1] = StepTimer03[n] + NextStepDelay03[n];
             }
 
-            max_Process_Plan04 = 9;
+            max_Process_Plan04 = 20;
             //event5
             NextStepDelay04[0] = 2; //focus tai khoan
             NextStepDelay04[1] = 2; //input tai khoan
@@ -179,6 +203,10 @@ namespace GetKeywords
             ListSuggestKeys = strSuggestKey.Split(Separator);
             ListNegativeKeys = strNegativeKey.Split(Separator);
 
+                ListAccount = txttaikhoan.Text;
+                Account = ListAccount.Split(Separator);
+                passLogin = txtmatkhau.Text;
+
                 Cursor.Show();  // Cho phép hiện con trỏ chuột lên
 
                 alarmCounter = 0;
@@ -192,7 +220,7 @@ namespace GetKeywords
 
                 if (cboPlan.SelectedIndex == 0) // Lựa chọn Login
                 {
-                    progressBar1.Maximum = 16; // số lượng các thao tác trong kế hoạch.
+                    progressBar1.Maximum = max_Process_Plan02; // số lượng các thao tác trong kế hoạch.
                     progressBar1.Value = 0;
                     tmrPlan02.Interval = InitVar.v_speed;
                     tmrPlan02.Start();
@@ -201,7 +229,7 @@ namespace GetKeywords
                 if (cboPlan.SelectedIndex == 1) // Lựa chọn Get Keywords
                 {
 
-                    progressBar1.Maximum = 7; // số lượng các thao tác trong kế hoạch.
+                    progressBar1.Maximum = max_Process_Plan01; // số lượng các thao tác trong kế hoạch.
                     progressBar1.Value = 0;
                     tmrPlan01.Interval = InitVar.v_speed;
                     tmrPlan01.Start();
@@ -284,6 +312,8 @@ namespace GetKeywords
             //InitVar.v_speed = Convert.ToInt32(txtSpeed.Text);
             //InitVar.v_VolMax = Convert.ToInt32(txtVolMax.Text); // T.Hoàng thêm 15:54 20230302
 
+           
+
             // Thêm kịch bản
             cboPlan.Items.Clear();
             cboPlan.Items.Add("Login");
@@ -312,25 +342,101 @@ namespace GetKeywords
         /// <param name="path"></param>
         private void Importexcel(string path)
         {
-            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
+            using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets[0];
-                int i = 1;
-                while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value.ToString().Contains(".") == false))
+                using (ExcelPackage excelPackage = new ExcelPackage(fileStream))
                 {
-                    // Cột 17 là vị trí của cột Competition;......
-                    if (excelWorksheet.Cells[i + 1, 3].Value == null)
+                    // Lấy Sheet đầu tiên trong tệp Excel
+                    ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets[0];
+
+                    int i = 1;
+                    while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value.ToString().Contains(".") == false))
                     {
-                        dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, "0", excelWorksheet.Cells[i + 1, 17].Value);
+                        // Cột 17 là vị trí của cột Competition;......
+                        if (excelWorksheet.Cells[i + 1, 3].Value == null)
+                        {
+                            dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, "0", excelWorksheet.Cells[i + 1, 17].Value);
+                        }
+                        else
+                        {
+                            dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, excelWorksheet.Cells[i + 1, 3].Value, excelWorksheet.Cells[i + 1, 17].Value);
+                        }
+                        i++;
                     }
-                    else
+
+                    if (excelWorksheet.Cells[1, 27].Value != null)  //
                     {
-                        dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, excelWorksheet.Cells[i + 1, 3].Value, excelWorksheet.Cells[i + 1, 17].Value);
+                        KeyIndex = Convert.ToInt32(excelWorksheet.Cells[1, 27].Value);
+                        txtCur.Text = Convert.ToString(KeyIndex);
                     }
-                    i++;
+
+                    if (excelWorksheet.Cells[2, 27].Value != null)  //
+                    {
+                        txtSuggestKey.Text = Convert.ToString(excelWorksheet.Cells[2, 27].Value);
+                    }
+                    if (excelWorksheet.Cells[3, 27].Value != null)  //
+                    {
+                        txtNegativeKey.Text = Convert.ToString(excelWorksheet.Cells[3, 27].Value);
+                    }
+                    if (excelWorksheet.Cells[4, 27].Value != null)  //
+                    {
+                        txttaikhoan.Text = Convert.ToString(excelWorksheet.Cells[4, 27].Value);
+                    }
+                    if (excelWorksheet.Cells[5, 27].Value != null)  //
+                    {
+                        txtmatkhau.Text = Convert.ToString(excelWorksheet.Cells[5, 27].Value);
+                    }
+
                 }
-                excelPackage.Dispose();
             }
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
+            //{
+            //    ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets[0];
+            //    int i = 1;
+            //    while ((excelWorksheet.Cells[i + 1, 1].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value != null) && (excelWorksheet.Cells[i + 1, 2].Value.ToString().Contains(".") == false))
+            //    {
+            //        // Cột 17 là vị trí của cột Competition;......
+            //        if (excelWorksheet.Cells[i + 1, 3].Value == null)
+            //        {
+            //            dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, "0", excelWorksheet.Cells[i + 1, 17].Value);
+            //        }
+            //        else
+            //        {
+            //            dgrListKeywords.Rows.Add(excelWorksheet.Cells[i + 1, 1].Value, excelWorksheet.Cells[i + 1, 2].Value, excelWorksheet.Cells[i + 1, 3].Value, excelWorksheet.Cells[i + 1, 17].Value);
+            //        }
+            //        i++;
+            //    }
+
+            //    if (excelWorksheet.Cells[1, 27].Value != null)  //
+            //    {
+            //        KeyIndex = Convert.ToInt32(excelWorksheet.Cells[1, 27].Value);
+            //        txtCur.Text = Convert.ToString(KeyIndex);
+            //    }
+
+            //    if (excelWorksheet.Cells[2, 27].Value != null)  //
+            //    {
+            //        txtSuggestKey.Text = Convert.ToString( excelWorksheet.Cells[2, 27].Value);
+            //    }
+            //    if (excelWorksheet.Cells[3, 27].Value != null)  //
+            //    {
+            //        txtNegativeKey.Text = Convert.ToString(excelWorksheet.Cells[3, 27].Value);
+            //    }
+            //    if (excelWorksheet.Cells[4, 27].Value != null)  //
+            //    {
+            //        txttaikhoan.Text = Convert.ToString(excelWorksheet.Cells[4, 27].Value);
+            //    }
+            //    if (excelWorksheet.Cells[5, 27].Value != null)  //
+            //    {
+            //        txtmatkhau.Text = Convert.ToString(excelWorksheet.Cells[5, 27].Value);
+            //    }
+
+       
+
+            //    excelPackage.Dispose();
+            //}
             txtTotal.Text = Convert.ToString(dgrListKeywords.Rows.Count);
         }
         /// <summary>
@@ -478,6 +584,33 @@ namespace GetKeywords
             {
                 using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
                 {
+                    // Load kich ban Login
+                    ExcelWorksheet excelWorksheetPlanLogin = excelPackage.Workbook.Worksheets["PlanLogin"];
+
+                    _AccountButtonLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[2, 2].Value);
+                    _AccountButtonLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[2, 3].Value);
+
+                    _LogoutButtonLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[3, 2].Value);
+                    _LogoutButtonLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[3, 3].Value);
+
+                    _EmailTextLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[4, 2].Value);
+                    _EmailTextLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[4, 3].Value);
+
+                    _PassTextLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[5, 2].Value);
+                    _PassTextLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[5, 3].Value);
+
+                    _LoginButtonLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[6, 2].Value);
+                    _LoginButtonLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[6, 3].Value);
+
+                    _TextSearchLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[7, 2].Value);
+                    _TextSearchLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[7, 3].Value);
+
+                    _ButtonSearchLogin.X = Convert.ToInt32(excelWorksheetPlanLogin.Cells[8, 2].Value);
+                    _ButtonSearchLogin.Y = Convert.ToInt32(excelWorksheetPlanLogin.Cells[8, 3].Value);
+
+                    /////////////////////////////////////////////////
+                    //
+
                     // Load kich ban 03
                     ExcelWorksheet excelWorksheetPlan03 = excelPackage.Workbook.Worksheets["Plan03"];
 
@@ -562,56 +695,12 @@ namespace GetKeywords
             application.ActiveWorkbook.Saved = true;
             application.Quit();
         }
-        private void QuickExportExcel(string path)
+        private void QuickExportExcel(string path, int noMsg = 0 )
         {
             //DataTable dt = new DataTable();
 
             if (dgrListKeywords.RowCount >= 1)
             {
-                //    foreach (DataGridViewColumn column in dgrListKeywords.Columns)
-                //    {
-                //        dt.Columns.Add(column.Name);
-                //    }
-                //    //dt = (dgrListKeywords.DataSource as DataTable);
-                //    foreach (DataGridViewRow row in dgrListKeywords.Rows)
-                //    {
-                //        //string column1 = row.Cells[dgrListKeywords.Columns[0].Name].Value.ToString();
-                //        //string column2 = row.Cells[dgrListKeywords.Columns[1].Name].Value.ToString();
-                //        //string column3 = "";
-                //        //    if (row.Cells[dgrListKeywords.Columns[2].Name].Value != null)
-                //        //{
-                //        //    column3 = row.Cells[dgrListKeywords.Columns[2].Name].Value.ToString();
-                //        //}
-
-                //        // Thêm dữ liệu vào DataTable
-                //        dt.Rows.Add(row.Cells[dgrListKeywords.Columns[0].Name].Value, row.Cells[dgrListKeywords.Columns[1].Name].Value, row.Cells[dgrListKeywords.Columns[2].Name].Value);
-                //    }
-                //    Excel.Application excel = new Excel.Application();
-                //    Excel.Workbook workbook = excel.Workbooks.Add();
-                //    Excel.Worksheet worksheet = workbook.ActiveSheet;
-
-                //    // Ghi tên cột
-                //    for (int i = 0; i < dt.Columns.Count; i++)
-                //    {
-                //        worksheet.Cells[1, i + 1] = dt.Columns[i].ColumnName;
-                //    }
-
-                //    // Ghi dữ liệu
-                //    for (int i = 0; i < dt.Rows.Count; i++)
-                //    {
-                //        for (int j = 0; j < dt.Columns.Count; j++)
-                //        {
-                //            worksheet.Cells[i + 2, j + 1] = dt.Rows[i][j].ToString();
-                //        }
-                //    }
-
-                //    // Tối ưu hóa hiệu suất
-                //    excel.ScreenUpdating = false;
-                //    excel.DisplayAlerts = false;
-                //    worksheet.Columns.AutoFit();
-                //    workbook.SaveAs(path, Excel.XlFileFormat.xlOpenXMLWorkbook);
-                //    workbook.Close();
-                //    excel.Quit();
 
                 // Tạo một đối tượng ExcelPackage
                 using (ExcelPackage excelPackage = new ExcelPackage())
@@ -627,6 +716,11 @@ namespace GetKeywords
                             worksheet.Cells[i + 1, j + 1].Value = dgrListKeywords.Rows[i].Cells[j].Value;
                         }
                     }
+                    worksheet.Cells[1, 27].Value = KeyIndex;  // Ghi lại KeyIndex để tiếp tục xử lý tại ô "AA:1"
+                    worksheet.Cells[2, 27].Value = txtSuggestKey.Text;
+                    worksheet.Cells[3, 27].Value = txtNegativeKey.Text;
+                    worksheet.Cells[4, 27].Value = txttaikhoan.Text;
+                    worksheet.Cells[5, 27].Value = txtmatkhau.Text;
 
                     // Lưu workbook vào một MemoryStream
                     using (MemoryStream memoryStream = new MemoryStream())
@@ -642,11 +736,11 @@ namespace GetKeywords
                     }
                 }
 
-                MessageBox.Show("Xuat file thanh cong");
+                if (noMsg == 0) MessageBox.Show("Xuat file thanh cong");
             }
             else
             {
-                MessageBox.Show("There is NO keywords to Export");
+                if (noMsg == 0) MessageBox.Show("There is NO keywords to Export");
             }    
         }
         private void saveExcelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -782,70 +876,75 @@ namespace GetKeywords
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[3]) //CLICK TO danh sach
+                if (alarmCounter == StepTimer01[3]) //CLICK TO Account Button ở góc
                 {
-                    pt.X = 996;
-                    pt.Y = 114;
+                    pt.X = _AccountButtonLogin.X;
+                    pt.Y = _AccountButtonLogin.Y;
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
 
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[4]) //CLICK TO LOGIN
+                if (alarmCounter == StepTimer01[4]) //CLICK TO Logout ở cuối Menu
                 {
-                    pt.X = 36;
-                    pt.Y = 414;
+                    pt.X = _LogoutButtonLogin.X;
+                    pt.Y = _LogoutButtonLogin.Y;
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
 
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[5]) //focus text taikhoan
+                if (alarmCounter == StepTimer01[5]) //Click lại nút Login 1 lần nữa ở góc
                 {
-                    pt.X = 641;
-                    pt.Y = 376;
+                    pt.X = _AccountButtonLogin.X;
+                    pt.Y = _AccountButtonLogin.Y;
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                    progressBar1.Value += 1;
+                }
 
+            if (alarmCounter == StepTimer01[6]) //Click Vào ô text nhập Email
+            {
+                pt.X = _EmailTextLogin.X;
+                pt.Y = _EmailTextLogin.Y;
+                Cursor.Position = pt;
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                progressBar1.Value += 1;
+            }
+
+            if (alarmCounter == StepTimer01[7]) //input to tai khoan
+                {
+                AccountIndex++;
+                if(AccountIndex >= Account.Length-1) AccountIndex = 0;
+                SendKeys.Send(Account[AccountIndex]);
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[6]) //input to tai khoan
+                if (alarmCounter == StepTimer01[8]) //focus text mat khau
                 {
-                    SendKeys.Send(txttaikhoan.Text);
-
-                    progressBar1.Value += 1;
-                }
-                if (alarmCounter == StepTimer01[7]) //focus text mat khau
-                {
-                    pt.X = 641;
-                    pt.Y = 461;
+                    pt.X = _PassTextLogin.X;
+                    pt.Y = _PassTextLogin.Y;
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
-
-
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[8]) //input text mat khau
+                if (alarmCounter == StepTimer01[9]) //input text mat khau
                 {
-                    SendKeys.Send(txtmatkhau.Text);
-
-
+                    SendKeys.Send(passLogin);
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[9]) // click login
+                if (alarmCounter == StepTimer01[10]) // click login
                 {
-                    pt.X = 255;
-                    pt.Y = 564;
-                    Cursor.Position = pt;
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
-
-
+                    //pt.X = _LogoutButtonLogin.X;
+                    //pt.Y = _LogoutButtonLogin.Y;
+                    //Cursor.Position = pt;
+                    //mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                    SendKeys.Send("{ENTER}");
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[10]) //focus text search
+                if (alarmCounter == StepTimer01[11]) //focus text search
                 {
                     pt.X = 382;
                     pt.Y = 486;
@@ -854,49 +953,48 @@ namespace GetKeywords
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[11]) //input text search
+                if (alarmCounter == StepTimer01[12]) //input text search
                 {
                     SendKeys.Send(txtKeywords.Text);
 
                     progressBar1.Value += 1;
                 }
-                if (alarmCounter == StepTimer01[12]) // click search
+                if (alarmCounter == StepTimer01[13]) // click search
                 {
-                    pt.X = 941;
-                    pt.Y = 486;
+                    pt.X = _ButtonSearch04.X;
+                    pt.Y = _ButtonSearch04.Y;
                     Cursor.Position = pt;
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
 
                     progressBar1.Value += 1;
                 }
 
-                if (alarmCounter == StepTimer01[13]) // click download button
-                {
-                    pt.X = 971;
-                    pt.Y = 937;
-                    Cursor.Position = pt;
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                //if (alarmCounter == StepTimer01[13]) // click download button
+                //{
+                //    pt.X = _;
+                //    pt.Y = 937;
+                //    Cursor.Position = pt;
+                //    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
 
-                    progressBar1.Value += 1;
-                }
+                //    progressBar1.Value += 1;
+                //}
 
-                if (alarmCounter == StepTimer01[14]) // click export to excel
-                {
-                    pt.X = 918;
-                    pt.Y = 751;
-                    Cursor.Position = pt;
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
+                //if (alarmCounter == StepTimer01[14]) // click export to excel
+                //{
+                //    pt.X = 918;
+                //    pt.Y = 751;
+                //    Cursor.Position = pt;
+                //    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
 
-                    progressBar1.Value += 1;
-                }
-                if (alarmCounter == StepTimer01[15])
+                //    progressBar1.Value += 1;
+                //}
+                if (alarmCounter == StepTimer01[14])
                 {
                     tmrPlan02.Stop();
                     alarmCounter = 0;
-
-                    this.WindowState = FormWindowState.Normal;
-
+                    //this.WindowState = FormWindowState.Normal;
                     progressBar1.Value = 0;
+                    tmrPlan03.Start();
                 }
              }
 
@@ -936,6 +1034,16 @@ namespace GetKeywords
                         do
                         {
                             KeyIndex++;
+                            if(KeyIndex % InitVar.v_AutoSave == 0) //Sau 5000 keywords sẽ lưu tạm lại
+                            {
+                                string strTempPath = "";
+                                DateTime now = DateTime.Now;
+                                string formattedDateTime = now.ToString("dd/MM/yyyy HH:mm:ss");
+                                string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
+                                strTempPath = downloadPath + "KeyTool" + formattedDateTime.Replace("/","").Replace(":","") + ".xlsx";
+                                QuickExportExcel(strTempPath, 1);
+                            }
+
                             //THoang 21:56 20230303
                             if (Convert.ToInt32(dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value) <= InitVar.v_VolMax)
                             {
@@ -1036,7 +1144,7 @@ namespace GetKeywords
                     // - Khong ton tai: ????
 
                     //tmrPlan03.Stop()
-                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace(":", " ").Replace("!", " ").Replace("&", "&amp").Replace("'","&#039");
+                    string fileName = txtKeywords.Text.Replace(".", " ").Replace("/", " ").Replace(":", " ").Replace("!", " ").Replace("&", "&amp").Replace("'","&#039").Replace("$", " ");
                     //fileName = fileName.Replace("+","{+}");
                     string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
                     string filePath = downloadPath + "Keyword Tool Export - Keyword Suggestions - " + fileName + ".xlsx";
@@ -1048,19 +1156,30 @@ namespace GetKeywords
                         if (LoadFileExcelOK == 0)
                         {
                             txtTotal.Text = Convert.ToString(dgrListKeywords.Rows.Count);
-                            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; // Giá trị cao vượt qua LevelSearch
+                            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = LevelSearch; //"100"; // Giá trị cao vượt qua LevelSearch
                             //MessageBox.Show("Nhap file thanh cong");
                             //KeyIndex++;
                             d_errorfile = 0; // Khi tim thay file tra error ve =0, de chay vong kich ban 03.
+                            if (countNextKey > 0)
+                            {
+                                KeyIndex = KeyIndex_backup;   //quay trở lại vị trí key đã quét mà bỏ qua trước đó
+                                // Đếm số lần quay lại.
+                                countBack++;
+                            }
+                            countNextKey = 0;
                         }
                         else
                         {
-
                             KeyIndex--;
 
                             d_errorfile++; // Tăng số lần đếm không lấy được file: 1-chạy 04; 2-chạy 05
 
-                            if (d_errorfile == 1 || d_errorfile == 2)
+                            if(d_errorfile == 1)
+                            {
+                                alarmCounter = StepTimer02[4] - 1;
+                                KeyIndex++;
+                            }
+                            else if (d_errorfile == 2)   //if (d_errorfile == 1 || d_errorfile == 2)
                             {
                                 tmrPlan03.Stop();
 
@@ -1082,20 +1201,28 @@ namespace GetKeywords
                             //}
                             else
                             {
-                                tmrPlan03.Stop();
-                                progressBar1.Value = 0;
-                                DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ","Thông báo lựa chọn", MessageBoxButtons.YesNo);
-                                if (result == DialogResult.No)
+                                if (countNextKey == 0) KeyIndex_backup = KeyIndex;
+                                countNextKey++;
+                                KeyIndex++;
+                                if (countNextKey >=3)
                                 {
-                                    d_errorfile = 0;
-                                    btnStart.Text = "Start";
-                                    cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
-                                    tmrPlan01.Stop();
-                                    tmrPlan02.Stop();
                                     tmrPlan03.Stop();
-                                    tmrPlan04.Stop();
-                                    tmrPlan05.Stop();
-                                    btnStart_Click(btnStart, EventArgs.Empty);
+                                    alarmCounter = 0;
+                                    progressBar1.Value = 0;
+                                    //DialogResult r = MessageBox.Show("Lỗi nghiêm trọng! đã bỏ qua 3 keys vẫn chưa được. Vui lòng chạy lại trạng thái ban đầu", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    d_errorfile = 0;
+                                    KeyIndex = KeyIndex_backup; // khi gặp lỗi 3 lần, cũng sẽ quay lại, hoặc khi loadOK excel
+                                    //btnStart.Text = "Start";
+                                    //cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                    //tmrPlan01.Stop();
+                                    //tmrPlan02.Stop();
+                                    //tmrPlan03.Stop();
+                                    //tmrPlan04.Stop();
+                                    //tmrPlan05.Stop();
+                                    //btnStart_Click(btnStart, EventArgs.Empty);
+                                    //Viết lại kịch bản Login vào đây (chú ý, có 2 chỗ copy ở dưới nữa). Kiểm tra lại kịch bản 
+                                    tmrPlan02.Start();
+                                    cboPlan.Text = "Kịch bản Login";
                                 }
                                 else
                                 {
@@ -1113,13 +1240,47 @@ namespace GetKeywords
                                     else
                                     {
                                         btnStart_Click(btnStart, EventArgs.Empty);
-
                                     }
-                                }
+                                }  
+                                
+
+                                //tmrPlan03.Stop();
+                                //progressBar1.Value = 0;
+                                //DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ","Thông báo lựa chọn", MessageBoxButtons.YesNo);
+                                //if (result == DialogResult.No)
+                                //{
+                                //    d_errorfile = 0;
+                                //    btnStart.Text = "Start";
+                                //    cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                //    tmrPlan01.Stop();
+                                //    tmrPlan02.Stop();
+                                //    tmrPlan03.Stop();
+                                //    tmrPlan04.Stop();
+                                //    tmrPlan05.Stop();
+                                //    btnStart_Click(btnStart, EventArgs.Empty);
+                                //}
+                                //else
+                                //{
+                                //    d_errorfile = 0;
+                                //    btnStart_Click(btnStart, EventArgs.Empty);
+                                //    btnNextKey_Click(btnNextKey, EventArgs.Empty);
+                                //    //btnStart.Text = "Start";
+                                //    if (KeyIndex >= dgrListKeywords.Rows.Count)  // Bỏ qua keywords cuối cùng, thinking tiếp nếu list có vol tận cuối cùng
+                                //    {
+                                //        // THoang 22:59 20230302
+                                //        tmrPlan03.Stop();
+                                //        alarmCounter = 0;
+                                //        MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái                        
+                                //    }
+                                //    else
+                                //    {
+                                //        btnStart_Click(btnStart, EventArgs.Empty);
+                                //    }
+                                //}
                             }
                         }
                     }
-                    else //if(System.IO.File.Exists(filePath) == true)
+                    else // của if(System.IO.File.Exists(filePath) == true)
                     {
                         // THoang 22:59 20230302
 
@@ -1127,7 +1288,12 @@ namespace GetKeywords
 
                         d_errorfile++; // Tăng số lần đếm không lấy được file: 1-chạy 04; 2-chạy 05
 
-                        if (d_errorfile == 1 || d_errorfile == 2)
+                        if (d_errorfile == 1)
+                        {
+                            alarmCounter = StepTimer02[4]-1;
+                            KeyIndex++;
+                        }
+                        else if (d_errorfile == 2)    //(d_errorfile == 1 || d_errorfile == 2)
                         {
                             tmrPlan03.Stop();
 
@@ -1142,59 +1308,99 @@ namespace GetKeywords
                         {
                             tmrPlan03.Stop();
                             progressBar1.Value = 0;
-                            progressBar1.Maximum = 9;
+                            progressBar1.Maximum = max_Process_Plan04;
                             alarmCounter = 0;
                             tmrPlan05.Start();
-                            cboPlan.Text = "Kịch bản 03";
+                            cboPlan.Text = "Kịch bản 05";
                         }
                         else
                         {
+                            ////tmrPlan03.Stop();
+                            ////progressBar1.Value = 0;
+                            ////MessageBox.Show("Lỗi nghiêm trọng, cập nhật lại email, mật khẩu và lựa chọn chạy lại kịch bản 03");
+                            ////d_errorfile = 0;
+
                             //tmrPlan03.Stop();
                             //progressBar1.Value = 0;
-                            //MessageBox.Show("Lỗi nghiêm trọng, cập nhật lại email, mật khẩu và lựa chọn chạy lại kịch bản 03");
-                            //d_errorfile = 0;
+                            //DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ", "Thông báo lựa chọn", MessageBoxButtons.YesNo);
+                            //if (result == DialogResult.No)
+                            //{
+                            //    d_errorfile = 0;
 
-                            tmrPlan03.Stop();
-                            progressBar1.Value = 0;
-                            DialogResult result = MessageBox.Show("Lỗi nghiêm trọng, Bạn có muốn Next Keywords này không?? ", "Thông báo lựa chọn", MessageBoxButtons.YesNo);
-                            if (result == DialogResult.No)
+                            //    //btnStart_Click(btnStart, EventArgs.Empty);
+
+                            //    btnStart.Text = "Start";
+                            //    cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                            //    tmrPlan01.Stop();
+                            //    tmrPlan02.Stop();
+                            //    tmrPlan03.Stop();
+                            //    tmrPlan04.Stop();
+                            //    tmrPlan05.Stop();
+                            //    btnStart_Click(btnStart, EventArgs.Empty);
+                            //}
+                            //else
+                            //{
+                            //    d_errorfile = 0;
+                            //    btnStart_Click(btnStart, EventArgs.Empty);
+                            //    if (KeyIndex >= dgrListKeywords.Rows.Count)  // Bỏ qua keywords cuối cùng, thinking tiếp nếu list có vol tận cuối cùng
+                            //    {
+                            //        // THoang 22:59 20230302
+                            //        tmrPlan03.Stop();
+                            //        alarmCounter = 0;
+                            //        MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái
+                            //    }
+                            //    else
+                            //    {
+                            //        btnNextKey_Click(btnNextKey, EventArgs.Empty);
+
+                            //        //btnStart.Text = "Start";
+                            //        btnStart_Click(btnStart, EventArgs.Empty);
+                            //    }
+                            //}
+
+                            if (countNextKey == 0) KeyIndex_backup = KeyIndex;
+                            
+                            countNextKey++;
+                            KeyIndex++;
+
+                            if (countNextKey >= 3)
                             {
-                                d_errorfile = 0;
-
-                                //btnStart_Click(btnStart, EventArgs.Empty);
-
-                                btnStart.Text = "Start";
-                                cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
-                                tmrPlan01.Stop();
-                                tmrPlan02.Stop();
                                 tmrPlan03.Stop();
-                                tmrPlan04.Stop();
-                                tmrPlan05.Stop();
-                                btnStart_Click(btnStart, EventArgs.Empty);
+                                alarmCounter = 0;
+                                progressBar1.Value = 0;
+                                //DialogResult r = MessageBox.Show("Lỗi nghiêm trọng! đã bỏ qua 3 keys vẫn chưa được", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                d_errorfile = 0;
+                                KeyIndex = KeyIndex_backup; // khi gặp lỗi 3 lần, cũng sẽ quay lại, hoặc khi loadOK excel
+                                //btnStart.Text = "Start";
+                                //cboPlan.SelectedIndex = 2;  // Lựa chọn sẵn kịch bản 03
+                                //tmrPlan01.Stop();
+                                //tmrPlan02.Stop();
+                                //tmrPlan03.Stop();
+                                //tmrPlan04.Stop();
+                                //tmrPlan05.Stop();
+                                //btnStart_Click(btnStart, EventArgs.Empty);
+                                tmrPlan02.Start();
+                                cboPlan.Text = "Kịch bản Login";
                             }
                             else
                             {
                                 d_errorfile = 0;
                                 btnStart_Click(btnStart, EventArgs.Empty);
+                                btnNextKey_Click(btnNextKey, EventArgs.Empty);
+                                //btnStart.Text = "Start";
                                 if (KeyIndex >= dgrListKeywords.Rows.Count)  // Bỏ qua keywords cuối cùng, thinking tiếp nếu list có vol tận cuối cùng
                                 {
                                     // THoang 22:59 20230302
                                     tmrPlan03.Stop();
                                     alarmCounter = 0;
-                                    MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái
+                                    MessageBox.Show("Hoàn thành chiến dịch. Vui lòng Export File"); //Sau chuyển vào Label Trạng thái                        
                                 }
                                 else
                                 {
-                                    btnNextKey_Click(btnNextKey, EventArgs.Empty);
-
-                                    //btnStart.Text = "Start";
                                     btnStart_Click(btnStart, EventArgs.Empty);
                                 }
                             }
                         }
-
-
-                           
                     }
 
                     //alarmCounter = 0;
@@ -1285,7 +1491,7 @@ namespace GetKeywords
             if (alarmCounter == StepTimer03[5]) //input text search
             {
                 // SendKeys.Send(txtKeywords.Text);
-                SendKeys.Send("Trường đại học xây dựng Hà Nội");
+                SendKeys.Send("fsdfsdfsdf sdfsdfasdfsadf sdfsadf sadf");
 
                 progressBar1.Value += 1;
             }
@@ -1479,10 +1685,13 @@ namespace GetKeywords
         private void btnNextKey_Click(object sender, EventArgs e)
         {
             KeyIndex++;
-            dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = "100"; //Giá trị cao, mặc định là 100 để vượt qua Level
-            dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value = "0"; // Đưa Vol về = 0, chưa hiểu ý thầy Bình chỗ này!
+            if (countNextKey == 0 || countBack >=2)  // đếm 2 lần quay lại key ko được, coi như key hỏng và bỏ qua hẳn
+            {
+                dgrListKeywords.Rows[KeyIndex - 1].Cells[2].Value = LevelSearch; //"100"; //Giá trị cao, mặc định là 100 để vượt qua Level
+                dgrListKeywords.Rows[KeyIndex - 1].Cells[1].Value = "0"; // Đưa Vol về = 0, chưa hiểu ý thầy Bình chỗ này!
+                countBack = 0; // đếm lại
+            }
             txtKeywords.Text = Convert.ToString(dgrListKeywords.Rows[KeyIndex].Cells[0].Value);
-
         }
 
         private void FocusCurrentCell(DataGridView dataGridView, int curRow)
@@ -1505,6 +1714,19 @@ namespace GetKeywords
         {
             frmConfig f_config = new frmConfig();
             f_config.ShowDialog();
+        }
+
+        private void dgrListKeywords_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void xóaKeyĐangChọnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(dgrListKeywords.CurrentRow.Index >=0)
+            {
+                dgrListKeywords.Rows.RemoveAt(dgrListKeywords.CurrentRow.Index);
+            }    
         }
         //////////////////////////////////////////////////////////////////////
     }

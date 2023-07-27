@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.txtAutoSave = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.txtLevelDif = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLevelSearch = new System.Windows.Forms.TextBox();
@@ -64,7 +65,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtAutoSave);
+            this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.txtLevelDif);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtLevelSearch);
@@ -83,16 +85,25 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // label3
+            // txtAutoSave
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(162, 82);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "(<=100)";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.txtAutoSave.Location = new System.Drawing.Point(115, 127);
+            this.txtAutoSave.Margin = new System.Windows.Forms.Padding(2);
+            this.txtAutoSave.Name = "txtAutoSave";
+            this.txtAutoSave.Size = new System.Drawing.Size(44, 20);
+            this.txtAutoSave.TabIndex = 7;
+            this.txtAutoSave.Text = "5000";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(4, 131);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Tự động lưu";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtLevelDif
             // 
@@ -375,7 +386,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 224);
+            this.ClientSize = new System.Drawing.Size(539, 224);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnSave);
@@ -404,7 +415,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtLevelSearch;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtLevelDif;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtVolMin;
@@ -425,5 +435,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtModelGPT;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtAutoSave;
+        private System.Windows.Forms.Label label11;
     }
 }

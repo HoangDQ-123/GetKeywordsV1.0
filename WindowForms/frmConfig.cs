@@ -24,6 +24,7 @@ namespace GetKeywords
             InitVar.v_LevelSearch = Convert.ToInt32(txtLevelSearch.Text);
             InitVar.v_LevelDif = Convert.ToInt32(txtLevelDif.Text);
             InitVar.v_VolMin = Convert.ToInt32(txtVolMin.Text);
+            InitVar.v_AutoSave = Convert.ToInt32(txtAutoSave.Text);
 
             InitVar.SaveFileConfig(InitVar.pathConfig);
 
@@ -41,6 +42,7 @@ namespace GetKeywords
             txtLevelSearch.Text = Convert.ToString(InitVar.v_LevelSearch);
             txtLevelDif.Text = Convert.ToString(InitVar.v_LevelDif);
             txtVolMin.Text = Convert.ToString(InitVar.v_VolMin);
+            txtAutoSave.Text = Convert.ToString(InitVar.v_AutoSave);
         }
 
 

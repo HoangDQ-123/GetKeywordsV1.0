@@ -52,6 +52,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearDataGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trợGiúpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xóaKeyĐangChọnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.càiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ghiFileCàiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.đọcFileCàiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +85,7 @@
             // btnStart
             // 
             this.btnStart.Location = new System.Drawing.Point(68, 41);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(56, 19);
             this.btnStart.TabIndex = 0;
@@ -111,7 +112,7 @@
             this.dgrListKeywords.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgrListKeywords.EnableHeadersVisualStyles = false;
             this.dgrListKeywords.Location = new System.Drawing.Point(11, 190);
-            this.dgrListKeywords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgrListKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.dgrListKeywords.Name = "dgrListKeywords";
             this.dgrListKeywords.ReadOnly = true;
             this.dgrListKeywords.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -121,6 +122,7 @@
             this.dgrListKeywords.RowTemplate.Height = 24;
             this.dgrListKeywords.Size = new System.Drawing.Size(226, 315);
             this.dgrListKeywords.TabIndex = 7;
+            this.dgrListKeywords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgrListKeywords_CellContentClick);
             // 
             // Column1
             // 
@@ -162,7 +164,7 @@
             // 
             this.cboPlan.FormattingEnabled = true;
             this.cboPlan.Location = new System.Drawing.Point(76, 17);
-            this.cboPlan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cboPlan.Margin = new System.Windows.Forms.Padding(2);
             this.cboPlan.Name = "cboPlan";
             this.cboPlan.Size = new System.Drawing.Size(120, 21);
             this.cboPlan.TabIndex = 8;
@@ -176,9 +178,9 @@
             this.groupBox2.Controls.Add(this.cboPlan);
             this.groupBox2.Controls.Add(this.btnStart);
             this.groupBox2.Location = new System.Drawing.Point(18, 119);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(208, 67);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
@@ -198,7 +200,7 @@
             // btnAuto
             // 
             this.btnAuto.Location = new System.Drawing.Point(128, 41);
-            this.btnAuto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAuto.Margin = new System.Windows.Forms.Padding(2);
             this.btnAuto.Name = "btnAuto";
             this.btnAuto.Size = new System.Drawing.Size(56, 19);
             this.btnAuto.TabIndex = 10;
@@ -229,7 +231,7 @@
             // txtKeywords
             // 
             this.txtKeywords.Location = new System.Drawing.Point(73, 97);
-            this.txtKeywords.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.txtKeywords.Name = "txtKeywords";
             this.txtKeywords.Size = new System.Drawing.Size(121, 20);
             this.txtKeywords.TabIndex = 1;
@@ -238,7 +240,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(18, 79);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(200, 10);
             this.progressBar1.TabIndex = 10;
@@ -272,41 +274,50 @@
             // openExcelToolStripMenuItem
             // 
             this.openExcelToolStripMenuItem.Name = "openExcelToolStripMenuItem";
-            this.openExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openExcelToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.openExcelToolStripMenuItem.Text = "Nạp Excel";
             this.openExcelToolStripMenuItem.Click += new System.EventHandler(this.openExcelToolStripMenuItem_Click);
             // 
             // saveExcelToolStripMenuItem
             // 
             this.saveExcelToolStripMenuItem.Name = "saveExcelToolStripMenuItem";
-            this.saveExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveExcelToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.saveExcelToolStripMenuItem.Text = "Xuất Excel";
             this.saveExcelToolStripMenuItem.Click += new System.EventHandler(this.saveExcelToolStripMenuItem_Click);
             // 
             // quickExportExcelToolStripMenuItem
             // 
             this.quickExportExcelToolStripMenuItem.Name = "quickExportExcelToolStripMenuItem";
-            this.quickExportExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quickExportExcelToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.quickExportExcelToolStripMenuItem.Text = "Xuất nhanh Excel";
             this.quickExportExcelToolStripMenuItem.Click += new System.EventHandler(this.quickExportExcelToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(169, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
             // 
             // clearDataGridToolStripMenuItem
             // 
             this.clearDataGridToolStripMenuItem.Name = "clearDataGridToolStripMenuItem";
-            this.clearDataGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearDataGridToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.clearDataGridToolStripMenuItem.Text = "Xóa bảng dữ liệu";
             this.clearDataGridToolStripMenuItem.Click += new System.EventHandler(this.clearDataGridToolStripMenuItem_Click);
             // 
             // trợGiúpToolStripMenuItem
             // 
+            this.trợGiúpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xóaKeyĐangChọnToolStripMenuItem});
             this.trợGiúpToolStripMenuItem.Name = "trợGiúpToolStripMenuItem";
             this.trợGiúpToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.trợGiúpToolStripMenuItem.Text = "Trợ giúp";
+            // 
+            // xóaKeyĐangChọnToolStripMenuItem
+            // 
+            this.xóaKeyĐangChọnToolStripMenuItem.Name = "xóaKeyĐangChọnToolStripMenuItem";
+            this.xóaKeyĐangChọnToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.xóaKeyĐangChọnToolStripMenuItem.Text = "Xóa key đang chọn";
+            this.xóaKeyĐangChọnToolStripMenuItem.Click += new System.EventHandler(this.xóaKeyĐangChọnToolStripMenuItem_Click);
             // 
             // càiĐặtToolStripMenuItem
             // 
@@ -359,7 +370,8 @@
             this.txttaikhoan.Name = "txttaikhoan";
             this.txttaikhoan.Size = new System.Drawing.Size(144, 20);
             this.txttaikhoan.TabIndex = 12;
-            this.txttaikhoan.Text = "chuminhtue10667@gmail.com";
+            this.txttaikhoan.Text = "anhbinh0310@gmail.com|binhta@huce.edu.vn|binhta@nuce.edu.vn|rdsic@nuce.edu.vn|tra" +
+    "nanhbinhhuce@gmail.com|admin@xaydungso.vn|sep.memart@gmail.com";
             // 
             // txtmatkhau
             // 
@@ -367,7 +379,7 @@
             this.txtmatkhau.Name = "txtmatkhau";
             this.txtmatkhau.Size = new System.Drawing.Size(52, 20);
             this.txtmatkhau.TabIndex = 13;
-            this.txtmatkhau.Text = "guihAaat";
+            this.txtmatkhau.Text = "Binhta2030";
             // 
             // label1
             // 
@@ -416,16 +428,16 @@
             // 
             // txtCur
             // 
-            this.txtCur.Location = new System.Drawing.Point(133, 623);
+            this.txtCur.Location = new System.Drawing.Point(18, 54);
             this.txtCur.Name = "txtCur";
-            this.txtCur.Size = new System.Drawing.Size(42, 20);
+            this.txtCur.Size = new System.Drawing.Size(101, 20);
             this.txtCur.TabIndex = 18;
             // 
             // txtTotal
             // 
-            this.txtTotal.Location = new System.Drawing.Point(190, 623);
+            this.txtTotal.Location = new System.Drawing.Point(125, 54);
             this.txtTotal.Name = "txtTotal";
-            this.txtTotal.Size = new System.Drawing.Size(48, 20);
+            this.txtTotal.Size = new System.Drawing.Size(101, 20);
             this.txtTotal.TabIndex = 18;
             this.txtTotal.TextChanged += new System.EventHandler(this.txtTotal_TextChanged);
             // 
@@ -452,7 +464,7 @@
             // btnNextKey
             // 
             this.btnNextKey.Location = new System.Drawing.Point(200, 97);
-            this.btnNextKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNextKey.Margin = new System.Windows.Forms.Padding(2);
             this.btnNextKey.Name = "btnNextKey";
             this.btnNextKey.Size = new System.Drawing.Size(20, 18);
             this.btnNextKey.TabIndex = 20;
@@ -502,7 +514,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Location = new System.Drawing.Point(1050, 300);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -565,6 +577,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn clnChecked;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.ToolStripMenuItem xóaKeyĐangChọnToolStripMenuItem;
     }
 }
 

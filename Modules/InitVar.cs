@@ -15,6 +15,7 @@ namespace GetKeywords
         public static int v_LevelSearch = 100; // Độ sâu, đặt =100 là vô tận.
         public static int v_LevelDif = 100;
         public static int v_VolMin = 100;
+        public static int v_AutoSave = 5000;
        
 
 
@@ -38,6 +39,7 @@ namespace GetKeywords
             fw.WriteLine(v_LevelSearch);
             fw.WriteLine(v_LevelDif);
             fw.WriteLine(v_VolMin);
+            fw.WriteLine(v_AutoSave);
 
             fw.Close();
         }
@@ -50,6 +52,7 @@ namespace GetKeywords
             v_LevelSearch = Convert.ToInt32(fr.ReadLine());
             v_LevelDif= Convert.ToInt32(fr.ReadLine());
             v_VolMin= Convert.ToInt32(fr.ReadLine());
+            v_AutoSave = Convert.ToInt32(fr.ReadLine());
 
             fr.Close();
         }
