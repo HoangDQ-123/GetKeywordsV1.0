@@ -25,6 +25,10 @@ namespace GetKeywords
             InitVar.v_LevelDif = Convert.ToInt32(txtLevelDif.Text);
             InitVar.v_VolMin = Convert.ToInt32(txtVolMin.Text);
             InitVar.v_AutoSave = Convert.ToInt32(txtAutoSave.Text);
+            InitVar.v_TimeDownload = Convert.ToInt32(txtTimeDownload.Text);
+            InitVar.v_TimeDownload2 = Convert.ToInt32(txtTimeDownload2.Text);
+            InitVar.v_TimeSearch    = Convert.ToInt32(txtTimeSearch.Text);  
+            InitVar.v_MaxCountDownload = Convert.ToInt32(txtMaxCountDownload.Text);
 
             InitVar.SaveFileConfig(InitVar.pathConfig);
 
@@ -43,9 +47,15 @@ namespace GetKeywords
             txtLevelDif.Text = Convert.ToString(InitVar.v_LevelDif);
             txtVolMin.Text = Convert.ToString(InitVar.v_VolMin);
             txtAutoSave.Text = Convert.ToString(InitVar.v_AutoSave);
+            txtTimeDownload.Text = Convert.ToString(InitVar.v_TimeDownload);
+            txtTimeDownload2.Text = Convert.ToString(InitVar.v_TimeDownload2);
+            txtTimeSearch.Text = Convert.ToString(InitVar.v_TimeSearch);
+            txtMaxCountDownload.Text = Convert.ToString(InitVar.v_MaxCountDownload);
         }
 
-
-
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+           //Form1.InitVar_Plan();
+        }
     }
 }

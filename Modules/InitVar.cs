@@ -16,6 +16,10 @@ namespace GetKeywords
         public static int v_LevelDif = 100;
         public static int v_VolMin = 100;
         public static int v_AutoSave = 5000;
+        public static int v_TimeDownload = 2;
+        public static int v_TimeDownload2 = 2;
+        public static int v_TimeSearch = 4;
+        public static int v_MaxCountDownload = 5;
        
 
 
@@ -40,6 +44,10 @@ namespace GetKeywords
             fw.WriteLine(v_LevelDif);
             fw.WriteLine(v_VolMin);
             fw.WriteLine(v_AutoSave);
+            fw.WriteLine(v_TimeDownload);
+            fw.WriteLine(v_TimeDownload2);
+            fw.WriteLine(v_TimeSearch);
+            fw.WriteLine(v_MaxCountDownload);
 
             fw.Close();
         }
@@ -53,6 +61,10 @@ namespace GetKeywords
             v_LevelDif= Convert.ToInt32(fr.ReadLine());
             v_VolMin= Convert.ToInt32(fr.ReadLine());
             v_AutoSave = Convert.ToInt32(fr.ReadLine());
+            v_TimeDownload = Convert.ToInt32(fr.ReadLine());
+            v_TimeDownload2 = Convert.ToInt32(fr.ReadLine());    
+            v_TimeSearch = Convert.ToInt32(fr.ReadLine());
+            v_MaxCountDownload = Convert.ToInt32(fr.ReadLine());
 
             fr.Close();
         }

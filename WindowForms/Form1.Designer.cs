@@ -77,6 +77,8 @@
             this.btnNextKey = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.txtNegativeKey = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtVol = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -111,7 +113,7 @@
             this.Column3});
             this.dgrListKeywords.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgrListKeywords.EnableHeadersVisualStyles = false;
-            this.dgrListKeywords.Location = new System.Drawing.Point(11, 190);
+            this.dgrListKeywords.Location = new System.Drawing.Point(11, 230);
             this.dgrListKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.dgrListKeywords.Name = "dgrListKeywords";
             this.dgrListKeywords.ReadOnly = true;
@@ -120,7 +122,7 @@
             this.dgrListKeywords.RowHeadersVisible = false;
             this.dgrListKeywords.RowHeadersWidth = 51;
             this.dgrListKeywords.RowTemplate.Height = 24;
-            this.dgrListKeywords.Size = new System.Drawing.Size(226, 315);
+            this.dgrListKeywords.Size = new System.Drawing.Size(226, 275);
             this.dgrListKeywords.TabIndex = 7;
             this.dgrListKeywords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgrListKeywords_CellContentClick);
             // 
@@ -177,7 +179,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.cboPlan);
             this.groupBox2.Controls.Add(this.btnStart);
-            this.groupBox2.Location = new System.Drawing.Point(18, 119);
+            this.groupBox2.Location = new System.Drawing.Point(18, 159);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -488,6 +490,24 @@
             this.txtNegativeKey.Size = new System.Drawing.Size(145, 20);
             this.txtNegativeKey.TabIndex = 21;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 123);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(22, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Vol";
+            // 
+            // txtVol
+            // 
+            this.txtVol.Location = new System.Drawing.Point(73, 120);
+            this.txtVol.Margin = new System.Windows.Forms.Padding(2);
+            this.txtVol.Name = "txtVol";
+            this.txtVol.Size = new System.Drawing.Size(121, 20);
+            this.txtVol.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,7 +527,9 @@
             this.Controls.Add(this.txtmatkhau);
             this.Controls.Add(this.txttaikhoan);
             this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.txtVol);
             this.Controls.Add(this.txtKeywords);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dgrListKeywords);
@@ -517,6 +539,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Keytool 8.4.41";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -578,6 +601,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clnChecked;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.ToolStripMenuItem xóaKeyĐangChọnToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtVol;
     }
 }
 

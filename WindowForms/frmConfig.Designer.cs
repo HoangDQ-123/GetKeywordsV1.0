@@ -58,9 +58,20 @@
             this.label13 = new System.Windows.Forms.Label();
             this.txtModelGPT = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtTimeDownload2 = new System.Windows.Forms.TextBox();
+            this.txtTimeDownload = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtTimeSearch = new System.Windows.Forms.TextBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtMaxCountDownload = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -382,11 +393,121 @@
             this.label14.TabIndex = 4;
             this.label14.Text = "Model";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.txtTimeDownload2);
+            this.groupBox4.Controls.Add(this.txtTimeDownload);
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.txtMaxCountDownload);
+            this.groupBox4.Controls.Add(this.txtTimeSearch);
+            this.groupBox4.Controls.Add(this.btnUpdate);
+            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Location = new System.Drawing.Point(537, 11);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(150, 172);
+            this.groupBox4.TabIndex = 2;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Kịch bản";
+            // 
+            // txtTimeDownload2
+            // 
+            this.txtTimeDownload2.Enabled = false;
+            this.txtTimeDownload2.Location = new System.Drawing.Point(96, 59);
+            this.txtTimeDownload2.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTimeDownload2.Name = "txtTimeDownload2";
+            this.txtTimeDownload2.Size = new System.Drawing.Size(32, 20);
+            this.txtTimeDownload2.TabIndex = 5;
+            this.txtTimeDownload2.Text = "2";
+            // 
+            // txtTimeDownload
+            // 
+            this.txtTimeDownload.Location = new System.Drawing.Point(96, 37);
+            this.txtTimeDownload.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTimeDownload.Name = "txtTimeDownload";
+            this.txtTimeDownload.Size = new System.Drawing.Size(32, 20);
+            this.txtTimeDownload.TabIndex = 5;
+            this.txtTimeDownload.Text = "2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 64);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Trễ Download 2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 41);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(83, 13);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Trễ Download 1";
+            // 
+            // txtTimeSearch
+            // 
+            this.txtTimeSearch.Enabled = false;
+            this.txtTimeSearch.Location = new System.Drawing.Point(96, 16);
+            this.txtTimeSearch.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTimeSearch.Name = "txtTimeSearch";
+            this.txtTimeSearch.Size = new System.Drawing.Size(32, 20);
+            this.txtTimeSearch.TabIndex = 5;
+            this.txtTimeSearch.Text = "4";
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(36, 144);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(2);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(68, 24);
+            this.btnUpdate.TabIndex = 1;
+            this.btnUpdate.Text = "Cập nhật";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 20);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(71, 13);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "Trẽ Tìm kiếm:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 85);
+            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(91, 13);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "Số lần down max:";
+            // 
+            // txtMaxCountDownload
+            // 
+            this.txtMaxCountDownload.Location = new System.Drawing.Point(96, 81);
+            this.txtMaxCountDownload.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMaxCountDownload.Name = "txtMaxCountDownload";
+            this.txtMaxCountDownload.Size = new System.Drawing.Size(32, 20);
+            this.txtMaxCountDownload.TabIndex = 5;
+            this.txtMaxCountDownload.Text = "5";
+            // 
             // frmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 224);
+            this.ClientSize = new System.Drawing.Size(694, 224);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnSave);
@@ -401,6 +522,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -437,5 +560,15 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtAutoSave;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox txtTimeDownload;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtTimeSearch;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.TextBox txtTimeDownload2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtMaxCountDownload;
+        private System.Windows.Forms.Label label17;
     }
 }
