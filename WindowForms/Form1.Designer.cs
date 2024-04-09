@@ -32,10 +32,6 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.tmrPlan01 = new System.Windows.Forms.Timer(this.components);
             this.dgrListKeywords = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clnChecked = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cboPlan = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnPause = new System.Windows.Forms.Button();
@@ -79,6 +75,7 @@
             this.txtNegativeKey = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtVol = new System.Windows.Forms.TextBox();
+            this.btnTestKey = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -106,11 +103,6 @@
             this.dgrListKeywords.AllowUserToDeleteRows = false;
             this.dgrListKeywords.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgrListKeywords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgrListKeywords.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.clnChecked,
-            this.Column3});
             this.dgrListKeywords.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgrListKeywords.EnableHeadersVisualStyles = false;
             this.dgrListKeywords.Location = new System.Drawing.Point(11, 230);
@@ -125,42 +117,6 @@
             this.dgrListKeywords.Size = new System.Drawing.Size(226, 275);
             this.dgrListKeywords.TabIndex = 7;
             this.dgrListKeywords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgrListKeywords_CellContentClick);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Keywords";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 125;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Search Volume (Average)";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column2.Width = 50;
-            // 
-            // clnChecked
-            // 
-            this.clnChecked.HeaderText = "Checked";
-            this.clnChecked.MinimumWidth = 6;
-            this.clnChecked.Name = "clnChecked";
-            this.clnChecked.ReadOnly = true;
-            this.clnChecked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.clnChecked.Width = 30;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Competition";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column3.Width = 125;
             // 
             // cboPlan
             // 
@@ -508,11 +464,22 @@
             this.txtVol.Size = new System.Drawing.Size(121, 20);
             this.txtVol.TabIndex = 1;
             // 
+            // btnTestKey
+            // 
+            this.btnTestKey.Location = new System.Drawing.Point(160, 621);
+            this.btnTestKey.Name = "btnTestKey";
+            this.btnTestKey.Size = new System.Drawing.Size(75, 23);
+            this.btnTestKey.TabIndex = 23;
+            this.btnTestKey.Text = "btnTestKey";
+            this.btnTestKey.UseVisualStyleBackColor = true;
+            this.btnTestKey.Click += new System.EventHandler(this.btnTestKey_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(247, 652);
+            this.Controls.Add(this.btnTestKey);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtNegativeKey);
             this.Controls.Add(this.btnNextKey);
@@ -539,7 +506,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Keytool 8.4.41";
+            this.Text = "Keytool 9.0.2";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -596,13 +563,10 @@
         private System.Windows.Forms.Button btnNextKey;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtNegativeKey;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clnChecked;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.ToolStripMenuItem xóaKeyĐangChọnToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtVol;
+        private System.Windows.Forms.Button btnTestKey;
     }
 }
 
