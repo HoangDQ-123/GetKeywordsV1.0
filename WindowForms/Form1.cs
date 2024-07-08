@@ -594,7 +594,7 @@ namespace GetKeywords
                                     dup = true;
                                     
                                     CurrentKeywords = txtKeywords.Text;
-                                    KeyCha2[j] = CurrentKeywords;
+                                    strKeyCha2[j] = CurrentKeywords;
                                     if (CurrentKeywords.Equals(str2, StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         strVolume[KeyIndex - 1] = excelWorksheet.Cells[i + 1, 2].Value;
