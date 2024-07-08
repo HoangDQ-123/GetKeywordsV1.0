@@ -77,6 +77,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtVol = new System.Windows.Forms.TextBox();
             this.btnTestKey = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
+            this.prcExcel = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -115,7 +118,7 @@
             this.dgrListKeywords.RowHeadersVisible = false;
             this.dgrListKeywords.RowHeadersWidth = 51;
             this.dgrListKeywords.RowTemplate.Height = 24;
-            this.dgrListKeywords.Size = new System.Drawing.Size(226, 275);
+            this.dgrListKeywords.Size = new System.Drawing.Size(226, 253);
             this.dgrListKeywords.TabIndex = 7;
             this.dgrListKeywords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgrListKeywords_CellContentClick);
             // 
@@ -128,6 +131,7 @@
             this.cboPlan.Size = new System.Drawing.Size(120, 21);
             this.cboPlan.TabIndex = 8;
             this.cboPlan.Text = "[Lựa chọn kịch bản]";
+            this.cboPlan.SelectedIndexChanged += new System.EventHandler(this.cboPlan_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -467,10 +471,10 @@
             // 
             // txtVol
             // 
-            this.txtVol.Location = new System.Drawing.Point(73, 120);
+            this.txtVol.Location = new System.Drawing.Point(81, 120);
             this.txtVol.Margin = new System.Windows.Forms.Padding(2);
             this.txtVol.Name = "txtVol";
-            this.txtVol.Size = new System.Drawing.Size(121, 20);
+            this.txtVol.Size = new System.Drawing.Size(95, 20);
             this.txtVol.TabIndex = 1;
             // 
             // btnTestKey
@@ -483,11 +487,43 @@
             this.btnTestKey.UseVisualStyleBackColor = true;
             this.btnTestKey.Click += new System.EventHandler(this.btnTestKey_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 142);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(57, 13);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Ngôn ngữ:";
+            // 
+            // cmbLanguage
+            // 
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Items.AddRange(new object[] {
+            "Vietnamese",
+            "English"});
+            this.cmbLanguage.Location = new System.Drawing.Point(82, 143);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(94, 21);
+            this.cmbLanguage.TabIndex = 25;
+            this.cmbLanguage.Text = "Vietnamese";
+            // 
+            // prcExcel
+            // 
+            this.prcExcel.Location = new System.Drawing.Point(11, 488);
+            this.prcExcel.Name = "prcExcel";
+            this.prcExcel.Size = new System.Drawing.Size(226, 23);
+            this.prcExcel.TabIndex = 26;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(247, 652);
+            this.Controls.Add(this.prcExcel);
+            this.Controls.Add(this.cmbLanguage);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnTestKey);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtNegativeKey);
@@ -577,6 +613,9 @@
         private System.Windows.Forms.TextBox txtVol;
         private System.Windows.Forms.Button btnTestKey;
         private System.Windows.Forms.ToolStripMenuItem đọcChỉSốToolStripMenuItem;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbLanguage;
+        private System.Windows.Forms.ProgressBar prcExcel;
     }
 }
 
