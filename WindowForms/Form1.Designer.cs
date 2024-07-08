@@ -49,6 +49,7 @@
             this.clearDataGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trợGiúpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xóaKeyĐangChọnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đọcChỉSốToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.càiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ghiFileCàiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.đọcFileCàiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -265,7 +266,8 @@
             // trợGiúpToolStripMenuItem
             // 
             this.trợGiúpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xóaKeyĐangChọnToolStripMenuItem});
+            this.xóaKeyĐangChọnToolStripMenuItem,
+            this.đọcChỉSốToolStripMenuItem});
             this.trợGiúpToolStripMenuItem.Name = "trợGiúpToolStripMenuItem";
             this.trợGiúpToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.trợGiúpToolStripMenuItem.Text = "Trợ giúp";
@@ -276,6 +278,13 @@
             this.xóaKeyĐangChọnToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.xóaKeyĐangChọnToolStripMenuItem.Text = "Xóa key đang chọn";
             this.xóaKeyĐangChọnToolStripMenuItem.Click += new System.EventHandler(this.xóaKeyĐangChọnToolStripMenuItem_Click);
+            // 
+            // đọcChỉSốToolStripMenuItem
+            // 
+            this.đọcChỉSốToolStripMenuItem.Name = "đọcChỉSốToolStripMenuItem";
+            this.đọcChỉSốToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.đọcChỉSốToolStripMenuItem.Text = "Đọc chỉ số";
+            this.đọcChỉSốToolStripMenuItem.Click += new System.EventHandler(this.đọcChỉSốToolStripMenuItem_Click);
             // 
             // càiĐặtToolStripMenuItem
             // 
@@ -506,7 +515,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Keytool 9.0.2";
+            this.Text = "Keytool 9.0.4";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -567,6 +576,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtVol;
         private System.Windows.Forms.Button btnTestKey;
+        private System.Windows.Forms.ToolStripMenuItem đọcChỉSốToolStripMenuItem;
     }
 }
 
