@@ -508,6 +508,7 @@
             this.cmbLanguage.Size = new System.Drawing.Size(94, 21);
             this.cmbLanguage.TabIndex = 25;
             this.cmbLanguage.Text = "Vietnamese";
+            this.cmbLanguage.SelectedIndexChanged += new System.EventHandler(this.cmbLanguage_SelectedIndexChanged);
             // 
             // prcExcel
             // 

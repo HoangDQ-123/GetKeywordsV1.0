@@ -459,7 +459,7 @@ namespace GetKeywords
 
         // Import hàm SetForegroundWindow từ user32.dll
         [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private static extern bool SetForegroundWindow(IntPtr hWnd); // Hàm đưa cửa sổ lên phía trước.
 
         public static void AutoMouseClick(System.Drawing.Point pt, int _delay = 200, int clickCount = 1)
         {
@@ -468,7 +468,6 @@ namespace GetKeywords
                 //Thread.Sleep(_delay);
                 System.Windows.Forms.Cursor.Position = new System.Drawing.Point(pt.X, pt.Y);
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, pt.X, pt.Y, 0, 0);
-
             }
         }
 
@@ -1600,13 +1599,13 @@ private void LoadPlanPoint(string path)
                     {
                         ByPassUnusualActivity(_Turnon, _Turnoff, _CloseButton, _CheckHuman);
 
-                        if (cmbLanguage.Text == "English")
+                        if (cmbLanguage.SelectedIndex == 0)
                         {
-                            Clipboard.SetText(OriginAddress);
+                            Clipboard.SetText(OriginAddressVN);
                         }
                         else
                         {
-                            Clipboard.SetText(OriginAddressVN);
+                            Clipboard.SetText(OriginAddress);
                         }    
                         Thread.Sleep(500);
                         SendKeys.Send("^v");
@@ -2310,6 +2309,11 @@ private void LoadPlanPoint(string path)
         }
 
         private void cboPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
