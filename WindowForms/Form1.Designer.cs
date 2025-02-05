@@ -80,6 +80,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.prcExcel = new System.Windows.Forms.ProgressBar();
+            this.testMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgrListKeywords)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -296,7 +297,8 @@
             this.ghiFileCàiĐặtToolStripMenuItem,
             this.đọcFileCàiĐặtToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.đọcFileKịchBảnToolStripMenuItem});
+            this.đọcFileKịchBảnToolStripMenuItem,
+            this.testMenuToolStripMenuItem});
             this.càiĐặtToolStripMenuItem.Name = "càiĐặtToolStripMenuItem";
             this.càiĐặtToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.càiĐặtToolStripMenuItem.Text = "Cài đặt";
@@ -304,25 +306,25 @@
             // ghiFileCàiĐặtToolStripMenuItem
             // 
             this.ghiFileCàiĐặtToolStripMenuItem.Name = "ghiFileCàiĐặtToolStripMenuItem";
-            this.ghiFileCàiĐặtToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.ghiFileCàiĐặtToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ghiFileCàiĐặtToolStripMenuItem.Text = "Hệ thống";
             this.ghiFileCàiĐặtToolStripMenuItem.Click += new System.EventHandler(this.ghiFileCàiĐặtToolStripMenuItem_Click);
             // 
             // đọcFileCàiĐặtToolStripMenuItem
             // 
             this.đọcFileCàiĐặtToolStripMenuItem.Name = "đọcFileCàiĐặtToolStripMenuItem";
-            this.đọcFileCàiĐặtToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.đọcFileCàiĐặtToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.đọcFileCàiĐặtToolStripMenuItem.Text = "Đọc file cài đặt";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(160, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // đọcFileKịchBảnToolStripMenuItem
             // 
             this.đọcFileKịchBảnToolStripMenuItem.Name = "đọcFileKịchBảnToolStripMenuItem";
-            this.đọcFileKịchBảnToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.đọcFileKịchBảnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.đọcFileKịchBảnToolStripMenuItem.Text = "Đọc file Kịch bản";
             this.đọcFileKịchBảnToolStripMenuItem.Click += new System.EventHandler(this.đọcFileKịchBảnToolStripMenuItem_Click);
             // 
@@ -517,6 +519,12 @@
             this.prcExcel.Size = new System.Drawing.Size(226, 23);
             this.prcExcel.TabIndex = 26;
             // 
+            // testMenuToolStripMenuItem
+            // 
+            this.testMenuToolStripMenuItem.Name = "testMenuToolStripMenuItem";
+            this.testMenuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testMenuToolStripMenuItem.Text = "Test Menu";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -617,6 +625,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbLanguage;
         private System.Windows.Forms.ProgressBar prcExcel;
+        private System.Windows.Forms.ToolStripMenuItem testMenuToolStripMenuItem;
     }
 }
 
